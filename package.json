@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "postinstall": "node -e \"require('fs').mkdirSync('public/wasm',{recursive:true});require('fs').copyFileSync('node_modules/zxing-wasm/dist/reader/zxing_reader.wasm','public/wasm/zxing_reader.wasm')\""
   },
   "dependencies": {
     "@zxing/browser": "^0.2.1",

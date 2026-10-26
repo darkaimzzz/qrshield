@@ -178,6 +178,13 @@ export async function analyze(
   stage("redirects", redirects.status, redirects.detail)
   findings = [...findings, ...redirectFindings(redirects)]
 
+  // http:// that the same site immediately upgrades to https:// is not an unencrypted destination.
+  const upgradedToHttps =
+    parsed.protocol === "http:" &&
+    redirects.hops[1]?.url.startsWith("https:") &&
+    !redirects.hops[1].crossDomain
+  if (upgradedToHttps) findings = findings.filter((f) => f.id !== "no_https")
+
   // The final destination gets the same offline analysis as the scanned URL.
   let destinationHost = parsed.hostname
   let destinationIsIp = parsed.isIp
@@ -240,6 +247,9 @@ export async function analyze(
     "Threat-intelligence lists only contain threats that have already been reported; new phishing sites often go live before they are listed.",
   ]
   if (parsed.assumedProtocol) limitations.push("No scheme was provided, so https:// was assumed.")
+  if (upgradedToHttps) {
+    limitations.push("The QR link starts with http:// and the site upgrades it to HTTPS; that first request is still unencrypted.")
+  }
   if (domain.status !== "done") limitations.push(`Domain registration data unavailable: ${domain.detail}`)
   else if (domain.ageDays === null) limitations.push("Domain age could not be determined from the registry response.")
   if (redirects.status !== "done") limitations.push(`Redirects were not resolved: ${redirects.detail}`)

@@ -1,5 +1,5 @@
 {
-  "trained_at": "2026-10-26T09:13:10+00:00",
+  "trained_at": "2026-10-26T09:27:24+00:00",
   "dataset": {
     "name": "PhiUSIIL Phishing URL Dataset",
     "source": "https://archive.ics.uci.edu/static/public/967/phiusiil+phishing+url+dataset.zip",
@@ -40,7 +40,8 @@
   },
   "model": {
     "type": "StandardScaler + LogisticRegression (class_weight=balanced)",
-    "C": 10.0,
+    "C": 0.1,
+    "C_selection": "smallest C with CV ROC-AUC within 0.001 of the best",
     "cv_roc_auc_by_C": {
       "0.01": 0.8716,
       "0.1": 0.8746,
@@ -51,17 +52,17 @@
   },
   "test": {
     "threshold": 0.5,
-    "precision": 0.9038,
-    "recall": 0.7675,
-    "f1": 0.8301,
-    "accuracy": 0.8624,
-    "roc_auc": 0.9063,
-    "brier": 0.1073,
+    "precision": 0.9023,
+    "recall": 0.7681,
+    "f1": 0.8298,
+    "accuracy": 0.862,
+    "roc_auc": 0.9061,
+    "brier": 0.1074,
     "confusion_matrix": {
-      "tn": 25139,
-      "fp": 1710,
-      "fn": 4865,
-      "tp": 16060
+      "tn": 25108,
+      "fp": 1741,
+      "fn": 4853,
+      "tp": 16072
     },
     "support": {
       "phishing": 20925,
@@ -70,17 +71,17 @@
   },
   "train": {
     "threshold": 0.5,
-    "precision": 0.8635,
-    "recall": 0.6904,
-    "f1": 0.7673,
-    "accuracy": 0.8452,
-    "roc_auc": 0.8755,
-    "brier": 0.1204,
+    "precision": 0.8624,
+    "recall": 0.6914,
+    "f1": 0.7675,
+    "accuracy": 0.8451,
+    "roc_auc": 0.8751,
+    "brier": 0.1207,
     "confusion_matrix": {
-      "tn": 101032,
-      "fp": 6911,
-      "fn": 19602,
-      "tp": 43717
+      "tn": 100958,
+      "fp": 6985,
+      "fn": 19541,
+      "tp": 43778
     },
     "support": {
       "phishing": 63319,

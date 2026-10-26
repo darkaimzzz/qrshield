@@ -141,7 +141,6 @@ def main() -> None:
     assert not set(groups[train_idx]) & set(groups[test_idx]), "group leakage between splits"
 
     # Pick regularization strength with group-aware CV on the training split only.
-    best_c, best_auc = 1.0, -1.0
     cv_results = {}
     for c in (0.01, 0.1, 1.0, 10.0):
         aucs = []
@@ -153,8 +152,10 @@ def main() -> None:
             m.fit(X[train_idx][tr], y[train_idx][tr])
             aucs.append(roc_auc_score(y[train_idx][va], m.predict_proba(X[train_idx][va])[:, 1]))
         cv_results[str(c)] = round(float(np.mean(aucs)), 4)
-        if np.mean(aucs) > best_auc:
-            best_c, best_auc = c, float(np.mean(aucs))
+    # Prefer the strongest regularization whose CV AUC is within 0.001 of the best: nearly
+    # identical accuracy, smaller coefficients, and more stable per-feature explanations.
+    best_auc = max(cv_results.values())
+    best_c = min(float(c) for c, auc in cv_results.items() if auc >= best_auc - 0.001)
     print("CV ROC-AUC by C:", cv_results, "-> C =", best_c)
 
     model = make_pipeline(
@@ -185,6 +186,7 @@ def main() -> None:
         "model": {
             "type": "StandardScaler + LogisticRegression (class_weight=balanced)",
             "C": best_c,
+            "C_selection": "smallest C with CV ROC-AUC within 0.001 of the best",
             "cv_roc_auc_by_C": cv_results,
             "features": len(names),
         },
