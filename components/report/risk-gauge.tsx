@@ -23,9 +23,22 @@ export function RiskGauge({ score, band }: { score: number; band: RiskBand }) {
   }, [score, reduce, value])
 
   return (
-    <div className="relative size-44 shrink-0" role="img" aria-label={`Risk score ${score} out of 100, ${BAND_STYLE[band].label}`}>
+    <div
+      className="relative size-44 shrink-0"
+      role="img"
+      aria-label={`Risk score ${score} out of 100, ${BAND_STYLE[band].label}`}
+    >
       <svg viewBox="0 0 120 120" className="size-full -rotate-[225deg]">
-        <circle cx="60" cy="60" r={R} fill="none" stroke="rgb(148 163 184 / 0.15)" strokeWidth="9" strokeLinecap="round" strokeDasharray={`${C * ARC} ${C}`} />
+        <circle
+          cx="60"
+          cy="60"
+          r={R}
+          fill="none"
+          stroke="rgb(148 163 184 / 0.15)"
+          strokeWidth="9"
+          strokeLinecap="round"
+          strokeDasharray={`${C * ARC} ${C}`}
+        />
         <motion.circle
           cx="60"
           cy="60"
@@ -39,10 +52,13 @@ export function RiskGauge({ score, band }: { score: number; band: RiskBand }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <motion.span className="text-5xl font-semibold tracking-tight tabular-nums" data-testid="risk-score">
+        <motion.span
+          className="text-5xl font-semibold tracking-tight tabular-nums"
+          data-testid="risk-score"
+        >
           {rounded}
         </motion.span>
-        <span className="text-xs text-muted-foreground">out of 100</span>
+        <span className="text-muted-foreground text-xs">out of 100</span>
       </div>
     </div>
   )

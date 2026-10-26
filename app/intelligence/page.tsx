@@ -10,7 +10,7 @@ export default function IntelligencePage() {
     <div className="mx-auto flex max-w-6xl flex-col gap-10">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Threat intelligence</h1>
-        <p className="mt-2 max-w-3xl text-muted-foreground">
+        <p className="text-muted-foreground mt-2 max-w-3xl">
           How QR-code attacks work, how to read a link, and what your own scans have surfaced.
         </p>
       </header>

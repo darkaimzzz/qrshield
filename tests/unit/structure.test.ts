@@ -37,7 +37,9 @@ describe("structural analysis", () => {
   })
 
   it("flags a non-standard IPv4 notation as unusual encoding", () => {
-    expect(ids("http://3405803783/")).toEqual(expect.arrayContaining(["ip_host", "unusual_encoding"]))
+    expect(ids("http://3405803783/")).toEqual(
+      expect.arrayContaining(["ip_host", "unusual_encoding"]),
+    )
   })
 
   it("detects brand impersonation patterns", () => {

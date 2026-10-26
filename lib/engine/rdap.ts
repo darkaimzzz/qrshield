@@ -76,9 +76,7 @@ export function parseRdap(data: RdapDomain, now = Date.now()) {
   const registrarEntity = data.entities?.find((e) => e.roles?.includes("registrar"))
   const fn = registrarEntity?.vcardArray?.[1]?.find((p) => p[0] === "fn")?.[3]
   const ageDays =
-    registrationDate !== null
-      ? Math.floor((now - Date.parse(registrationDate)) / 86_400_000)
-      : null
+    registrationDate !== null ? Math.floor((now - Date.parse(registrationDate)) / 86_400_000) : null
   return {
     registrationDate,
     expirationDate: event("expiration"),
@@ -103,9 +101,13 @@ function result(partial: Partial<DomainInfo> & Pick<DomainInfo, "status" | "deta
 }
 
 export async function lookupDomain(hostname: string, isIp: boolean): Promise<DomainInfo> {
-  if (isIp) return result({ status: "skipped", detail: "IP addresses have no domain registration." })
+  if (isIp)
+    return result({ status: "skipped", detail: "IP addresses have no domain registration." })
   if (process.env.QRSHIELD_DISABLE_NETWORK === "1") {
-    return result({ status: "skipped", detail: "Outbound network checks are disabled on this server." })
+    return result({
+      status: "skipped",
+      detail: "Outbound network checks are disabled on this server.",
+    })
   }
   // RDAP is keyed by the ICANN registrable domain (private suffixes like github.io excluded).
   const domain = getDomain(hostname, { allowPrivateDomains: false })

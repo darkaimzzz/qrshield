@@ -11,7 +11,10 @@ export const maxDuration = 60
 export async function POST(request: Request) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local"
   if (!rateLimit(ip)) {
-    return Response.json({ error: "Too many requests. Please wait a minute and try again." }, { status: 429 })
+    return Response.json(
+      { error: "Too many requests. Please wait a minute and try again." },
+      { status: 429 },
+    )
   }
 
   const contentLength = Number(request.headers.get("content-length") ?? 0)
@@ -25,7 +28,10 @@ export async function POST(request: Request) {
   }
   const parsed = analyzeRequestSchema.safeParse(body)
   if (!parsed.success) {
-    return Response.json({ error: parsed.error.issues[0]?.message ?? "Invalid request." }, { status: 400 })
+    return Response.json(
+      { error: parsed.error.issues[0]?.message ?? "Invalid request." },
+      { status: 400 },
+    )
   }
 
   const encoder = new TextEncoder()
@@ -39,7 +45,10 @@ export async function POST(request: Request) {
         console.error("analysis failed", err instanceof InputError ? err.message : err)
         send({
           type: "error",
-          message: err instanceof InputError ? err.message : "Analysis failed unexpectedly. Please try again.",
+          message:
+            err instanceof InputError
+              ? err.message
+              : "Analysis failed unexpectedly. Please try again.",
         })
       } finally {
         controller.close()

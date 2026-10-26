@@ -82,7 +82,10 @@ export const phishingDatabase: ThreatProvider = {
     const hit = urls.map(hostOf).find((h) => h && list.has(h))
     return hit
       ? { matched: true, detail: `Host ${hit} is listed as an active phishing domain.` }
-      : { matched: false, detail: `Host not found among ${list.size.toLocaleString("en-US")} listed domains.` }
+      : {
+          matched: false,
+          detail: `Host not found among ${list.size.toLocaleString("en-US")} listed domains.`,
+        }
   },
 }
 
@@ -101,7 +104,10 @@ export const openPhish: ThreatProvider = {
     const hit = urls.map(canonicalUrl).find((u) => u && list.has(u))
     return hit
       ? { matched: true, detail: `Exact URL listed in the OpenPhish feed.` }
-      : { matched: false, detail: `URL not in the current feed (${list.size.toLocaleString("en-US")} entries).` }
+      : {
+          matched: false,
+          detail: `URL not in the current feed (${list.size.toLocaleString("en-US")} entries).`,
+        }
   },
 }
 
@@ -146,7 +152,8 @@ export const googleSafeBrowsing: ThreatProvider = {
 export const urlhaus: ThreatProvider = {
   id: "urlhaus",
   name: "abuse.ch URLhaus",
-  unavailableReason: () => (process.env.URLHAUS_AUTH_KEY ? null : "Not configured (URLHAUS_AUTH_KEY)"),
+  unavailableReason: () =>
+    process.env.URLHAUS_AUTH_KEY ? null : "Not configured (URLHAUS_AUTH_KEY)",
   async check(urls) {
     for (const url of urls.slice(0, 3)) {
       const res = await fetch("https://urlhaus-api.abuse.ch/v1/url/", {
@@ -156,9 +163,16 @@ export const urlhaus: ThreatProvider = {
         body: new URLSearchParams({ url }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      const data = (await res.json()) as { query_status: string; threat?: string; url_status?: string }
+      const data = (await res.json()) as {
+        query_status: string
+        threat?: string
+        url_status?: string
+      }
       if (data.query_status === "ok") {
-        return { matched: true, detail: `Listed (${data.threat ?? "malware"}, status ${data.url_status ?? "unknown"}).` }
+        return {
+          matched: true,
+          detail: `Listed (${data.threat ?? "malware"}, status ${data.url_status ?? "unknown"}).`,
+        }
       }
       if (data.query_status !== "no_results") throw new Error(data.query_status)
     }
@@ -166,7 +180,12 @@ export const urlhaus: ThreatProvider = {
   },
 }
 
-export const PROVIDERS: ThreatProvider[] = [phishingDatabase, openPhish, googleSafeBrowsing, urlhaus]
+export const PROVIDERS: ThreatProvider[] = [
+  phishingDatabase,
+  openPhish,
+  googleSafeBrowsing,
+  urlhaus,
+]
 
 export function warmThreatFeeds(): void {
   if (process.env.QRSHIELD_DISABLE_NETWORK === "1") return
@@ -184,7 +203,12 @@ export async function checkThreatIntel(
       if (reason) return { id: p.id, name: p.name, status: "not_checked", detail: reason }
       try {
         const r = await p.check(urls)
-        return { id: p.id, name: p.name, status: r.matched ? "match" : "no_match", detail: r.detail }
+        return {
+          id: p.id,
+          name: p.name,
+          status: r.matched ? "match" : "no_match",
+          detail: r.detail,
+        }
       } catch (err) {
         return {
           id: p.id,
@@ -198,7 +222,13 @@ export async function checkThreatIntel(
   const anyChecked = results.some((r) => r.status === "match" || r.status === "no_match")
   const anyAttempted = results.some((r) => r.status !== "not_checked")
   return {
-    status: anyChecked ? "done" : anyAttempted ? "failed" : networkOff ? "skipped" : "not_configured",
+    status: anyChecked
+      ? "done"
+      : anyAttempted
+        ? "failed"
+        : networkOff
+          ? "skipped"
+          : "not_configured",
     providers: results,
   }
 }

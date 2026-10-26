@@ -85,7 +85,7 @@ export function CameraScan({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border border-border bg-black/60">
+      <div className="border-border relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-2xl border bg-black/60">
         <video
           ref={videoRef}
           className={active ? "size-full object-cover" : "hidden"}
@@ -97,14 +97,14 @@ export function CameraScan({
           <div className="grid-bg absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
             {message ? (
               <>
-                <ShieldAlert className="size-8 text-risk-moderate" />
+                <ShieldAlert className="text-risk-moderate size-8" />
                 <p className="font-medium">{message.title}</p>
-                <p className="text-sm text-muted-foreground">{message.body}</p>
+                <p className="text-muted-foreground text-sm">{message.body}</p>
               </>
             ) : (
               <>
-                <Camera className="size-9 text-primary" />
-                <p className="text-sm text-muted-foreground">
+                <Camera className="text-primary size-9" />
+                <p className="text-muted-foreground text-sm">
                   Camera access is requested only when you press start. Video stays on your device.
                 </p>
               </>
@@ -113,19 +113,24 @@ export function CameraScan({
         )}
         {/* Scan boundary */}
         <div className="pointer-events-none absolute inset-[12%]" aria-hidden="true">
-          {["top-0 left-0 border-t-2 border-l-2", "top-0 right-0 border-t-2 border-r-2", "bottom-0 left-0 border-b-2 border-l-2", "right-0 bottom-0 border-r-2 border-b-2"].map((c) => (
-            <span key={c} className={`absolute size-7 rounded-[4px] border-primary ${c}`} />
+          {[
+            "top-0 left-0 border-t-2 border-l-2",
+            "top-0 right-0 border-t-2 border-r-2",
+            "bottom-0 left-0 border-b-2 border-l-2",
+            "right-0 bottom-0 border-r-2 border-b-2",
+          ].map((c) => (
+            <span key={c} className={`border-primary absolute size-7 rounded-[4px] ${c}`} />
           ))}
           {state === "scanning" && (
             <span
-              className="absolute inset-x-2 top-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_12px_2px_rgb(34_211_238/0.6)]"
+              className="via-primary absolute inset-x-2 top-0 h-0.5 bg-gradient-to-r from-transparent to-transparent shadow-[0_0_12px_2px_rgb(34_211_238/0.6)]"
               style={{ animation: "scanline 2.2s ease-in-out infinite" }}
             />
           )}
         </div>
         {state === "starting" && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-            <Loader2 className="size-7 animate-spin text-primary" />
+            <Loader2 className="text-primary size-7 animate-spin" />
           </div>
         )}
       </div>
@@ -144,8 +149,10 @@ export function CameraScan({
           <Upload /> Upload an image instead
         </Button>
       </div>
-      <p className="text-center text-xs text-muted-foreground" aria-live="polite">
-        {state === "scanning" ? "Point the camera at a QR code. Scanning stops automatically when one is found." : " "}
+      <p className="text-muted-foreground text-center text-xs" aria-live="polite">
+        {state === "scanning"
+          ? "Point the camera at a QR code. Scanning stops automatically when one is found."
+          : " "}
       </p>
     </div>
   )

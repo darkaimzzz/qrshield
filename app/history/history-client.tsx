@@ -17,7 +17,13 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import type { RiskBand } from "@/lib/engine/types"
 import { getAutosave, historyStore, setAutosave, useHistory, useHydrated } from "@/lib/history"
@@ -57,11 +63,12 @@ export function HistoryClient() {
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Scan history</h1>
-          <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-            <HardDrive className="size-4" /> Stored locally on this device. Nothing is uploaded, and images are never saved.
+          <p className="text-muted-foreground mt-1 flex items-center gap-1.5 text-sm">
+            <HardDrive className="size-4" /> Stored locally on this device. Nothing is uploaded, and
+            images are never saved.
           </p>
         </div>
-        <label className="flex items-center gap-2 text-sm text-muted-foreground">
+        <label className="text-muted-foreground flex items-center gap-2 text-sm">
           <Switch
             checked={autosave}
             onCheckedChange={(v) => {
@@ -76,7 +83,7 @@ export function HistoryClient() {
 
       <div className="surface flex flex-col gap-3 p-4 md:flex-row md:items-center">
         <div className="relative flex-1">
-          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -93,7 +100,9 @@ export function HistoryClient() {
             <SelectContent>
               <SelectItem value="all">All severities</SelectItem>
               {(Object.keys(BAND_STYLE) as RiskBand[]).map((b) => (
-                <SelectItem key={b} value={b}>{BAND_STYLE[b].label}</SelectItem>
+                <SelectItem key={b} value={b}>
+                  {BAND_STYLE[b].label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -117,13 +126,14 @@ export function HistoryClient() {
             <AlertDialogHeader>
               <AlertDialogTitle>Clear all scan history?</AlertDialogTitle>
               <AlertDialogDescription>
-                This permanently deletes {history.length} saved report{history.length === 1 ? "" : "s"} from this browser. It cannot be undone.
+                This permanently deletes {history.length} saved report
+                {history.length === 1 ? "" : "s"} from this browser. It cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
-                className="bg-destructive text-white hover:bg-destructive/90"
+                className="bg-destructive hover:bg-destructive/90 text-white"
                 onClick={() => {
                   historyStore.clear()
                   toast("Scan history cleared")
@@ -137,30 +147,46 @@ export function HistoryClient() {
       </div>
 
       {!hydrated ? (
-        <div className="h-64 animate-pulse rounded-2xl bg-muted/40" />
+        <div className="bg-muted/40 h-64 animate-pulse rounded-2xl" />
       ) : history.length === 0 ? (
         <div className="surface flex flex-col items-center gap-3 p-10 text-center">
-          <History className="size-8 text-muted-foreground" />
+          <History className="text-muted-foreground size-8" />
           <p className="font-medium">No saved scans yet</p>
-          <p className="text-sm text-muted-foreground">Reports you analyze appear here.</p>
+          <p className="text-muted-foreground text-sm">Reports you analyze appear here.</p>
           <Button asChild>
             <Link href="/#scan">Start a scan</Link>
           </Button>
         </div>
       ) : rows.length === 0 ? (
-        <p className="surface p-8 text-center text-sm text-muted-foreground">No scans match these filters.</p>
+        <p className="surface text-muted-foreground p-8 text-center text-sm">
+          No scans match these filters.
+        </p>
       ) : (
         <ul className="flex flex-col gap-2" data-testid="history-list">
           {rows.map((r) => {
             const s = BAND_STYLE[r.band]
             return (
-              <li key={r.id} className="surface flex items-center gap-3 p-3 sm:gap-4 sm:p-4" data-testid="history-row">
-                <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-xl border text-base font-semibold tabular-nums", s.text, s.bg, s.border)}>
+              <li
+                key={r.id}
+                className="surface flex items-center gap-3 p-3 sm:gap-4 sm:p-4"
+                data-testid="history-row"
+              >
+                <span
+                  className={cn(
+                    "flex size-12 shrink-0 items-center justify-center rounded-xl border text-base font-semibold tabular-nums",
+                    s.text,
+                    s.bg,
+                    s.border,
+                  )}
+                >
                   {r.score}
                 </span>
-                <Link href={`/analyze?id=${r.id}`} className="min-w-0 flex-1 rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none">
+                <Link
+                  href={`/analyze?id=${r.id}`}
+                  className="focus-visible:ring-ring min-w-0 flex-1 rounded-md focus-visible:ring-2 focus-visible:outline-none"
+                >
                   <span className="block truncate font-mono text-sm">{r.input}</span>
-                  <span className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
+                  <span className="text-muted-foreground mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs">
                     <span className={s.text}>{s.label}</span>
                     <span>·</span>
                     <span>{formatDateTime(r.createdAt)}</span>

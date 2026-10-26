@@ -5,16 +5,10 @@ import type { ParsedUrl } from "./types"
 export const MAX_INPUT_LENGTH = 2048
 
 export type ParseErrorKind =
-  | "empty"
-  | "too_long"
-  | "control_chars"
-  | "unsupported_scheme"
-  | "malformed"
-  | "invalid_host"
+  "empty" | "too_long" | "control_chars" | "unsupported_scheme" | "malformed" | "invalid_host"
 
 export type ParseResult =
-  | { ok: true; url: ParsedUrl }
-  | { ok: false; kind: ParseErrorKind; error: string; scheme?: string }
+  { ok: true; url: ParsedUrl } | { ok: false; kind: ParseErrorKind; error: string; scheme?: string }
 
 // C0/C1 control characters (tab, newline, NUL, ...). Never valid in a URL someone meant to share.
 const CONTROL_CHARS = /[\u0000-\u001F\u007F-\u009F]/
@@ -37,7 +31,10 @@ export function parseUrl(raw: string): ParseResult {
     return fail("too_long", `Input exceeds ${MAX_INPUT_LENGTH} characters.`)
   }
   if (CONTROL_CHARS.test(input)) {
-    return fail("control_chars", "Input contains control characters, which are never valid in a URL.")
+    return fail(
+      "control_chars",
+      "Input contains control characters, which are never valid in a URL.",
+    )
   }
 
   let candidate = input
@@ -69,7 +66,11 @@ export function parseUrl(raw: string): ParseResult {
   }
 
   const hostname = url.hostname.toLowerCase()
-  const ipVersion = hostname.startsWith("[") ? 6 : /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname) ? 4 : null
+  const ipVersion = hostname.startsWith("[")
+    ? 6
+    : /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)
+      ? 4
+      : null
   if (!ipVersion && !isValidDnsHostname(hostname)) {
     return fail("invalid_host", `“${hostname || "(empty)"}” is not a valid public hostname.`)
   }

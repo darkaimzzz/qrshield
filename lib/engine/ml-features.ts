@@ -8,16 +8,79 @@
  */
 
 export const ML_KEYWORDS = [
-  "login", "signin", "verify", "account", "update", "secure", "security", "bank", "confirm",
-  "password", "wallet", "support", "service", "billing", "payment", "auth", "webscr", "recover",
-  "unlock", "alert", "free", "bonus", "gift", "claim", "online", "app", "web", "mail", "office",
+  "login",
+  "signin",
+  "verify",
+  "account",
+  "update",
+  "secure",
+  "security",
+  "bank",
+  "confirm",
+  "password",
+  "wallet",
+  "support",
+  "service",
+  "billing",
+  "payment",
+  "auth",
+  "webscr",
+  "recover",
+  "unlock",
+  "alert",
+  "free",
+  "bonus",
+  "gift",
+  "claim",
+  "online",
+  "app",
+  "web",
+  "mail",
+  "office",
   "help",
 ]
 
 export const ML_TLDS = [
-  "com", "org", "net", "de", "uk", "ru", "info", "io", "xyz", "top", "app", "dev", "ly", "me",
-  "co", "in", "br", "jp", "fr", "au", "it", "nl", "pl", "ca", "es", "edu", "gov", "tk", "ml",
-  "ga", "cf", "gq", "shop", "online", "site", "store", "live", "club", "vip", "cn",
+  "com",
+  "org",
+  "net",
+  "de",
+  "uk",
+  "ru",
+  "info",
+  "io",
+  "xyz",
+  "top",
+  "app",
+  "dev",
+  "ly",
+  "me",
+  "co",
+  "in",
+  "br",
+  "jp",
+  "fr",
+  "au",
+  "it",
+  "nl",
+  "pl",
+  "ca",
+  "es",
+  "edu",
+  "gov",
+  "tk",
+  "ml",
+  "ga",
+  "cf",
+  "gq",
+  "shop",
+  "online",
+  "site",
+  "store",
+  "live",
+  "club",
+  "vip",
+  "cn",
 ]
 
 const VOWELS = new Set(["a", "e", "i", "o", "u"])
@@ -37,15 +100,32 @@ function entropy(s: string): number {
 export function mlHostname(url: string): string | null {
   const m = /^[a-z][a-z0-9+.-]*:\/\/(?:[^@/?#]*@)?(\[[^\]]*\]|[^:/?#]*)/i.exec(url.trim())
   if (!m) return null
-  return m[1].toLowerCase().replace(/\.$/, "").replace(/^www\./, "")
+  return m[1]
+    .toLowerCase()
+    .replace(/\.$/, "")
+    .replace(/^www\./, "")
 }
 
 export function featureNames(): string[] {
   return [
-    "host_length", "num_labels", "num_hyphens", "num_digits", "digit_ratio", "host_entropy",
-    "longest_label", "mean_label", "tld_length", "is_ip", "has_punycode", "vowel_ratio",
-    "max_consonant_run", "keyword_hits", "num_underscores", "hyphen_in_reg_label",
-    "first_label_length", "repeated_char_max",
+    "host_length",
+    "num_labels",
+    "num_hyphens",
+    "num_digits",
+    "digit_ratio",
+    "host_entropy",
+    "longest_label",
+    "mean_label",
+    "tld_length",
+    "is_ip",
+    "has_punycode",
+    "vowel_ratio",
+    "max_consonant_run",
+    "keyword_hits",
+    "num_underscores",
+    "hyphen_in_reg_label",
+    "first_label_length",
+    "repeated_char_max",
     ...ML_TLDS.map((t) => `tld_${t}`),
     "tld_other",
   ]

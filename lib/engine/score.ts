@@ -26,7 +26,11 @@ export function bandLabel(band: RiskBand): string {
  * nothing — missing evidence is reported separately (Report.checks), never scored as "passed".
  * Returns findings with their actual `contribution` filled in, sorted by contribution.
  */
-export function scoreFindings(findings: Finding[]): { score: number; band: RiskBand; findings: Finding[] } {
+export function scoreFindings(findings: Finding[]): {
+  score: number
+  band: RiskBand
+  findings: Finding[]
+} {
   const seenGroups = new Set<string>()
   const scored = [...findings]
     .sort((a, b) => b.weight - a.weight)

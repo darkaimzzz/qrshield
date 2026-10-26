@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest"
 import { buildRecommendations, buildSummary } from "@/lib/engine/explain"
 import { analyze, InputError, type AnalyzeDeps } from "@/lib/engine/report"
-import type { AnalyzeEvent, DomainInfo, RedirectResult, ThreatIntelResult } from "@/lib/engine/types"
+import type {
+  AnalyzeEvent,
+  DomainInfo,
+  RedirectResult,
+  ThreatIntelResult,
+} from "@/lib/engine/types"
 
 const noDomain: DomainInfo = {
   status: "failed",
@@ -41,16 +46,29 @@ describe("analyze pipeline", () => {
   it("emits running/finished events for each real stage in order of completion", async () => {
     const events: AnalyzeEvent[] = []
     await analyze("https://example.com/", "url", (e) => events.push(e), deps())
-    const stages = events.filter((e) => e.type === "stage").map((e) => e.type === "stage" && `${e.stage}:${e.status}`)
+    const stages = events
+      .filter((e) => e.type === "stage")
+      .map((e) => e.type === "stage" && `${e.stage}:${e.status}`)
     expect(stages).toEqual([
-      "structure:running", "structure:done", "redirects:running", "redirects:done",
-      "domain:running", "threat_intel:running", "domain:failed", "threat_intel:not_configured",
-      "scoring:running", "scoring:done", "report:running", "report:done",
+      "structure:running",
+      "structure:done",
+      "redirects:running",
+      "redirects:done",
+      "domain:running",
+      "threat_intel:running",
+      "domain:failed",
+      "threat_intel:not_configured",
+      "scoring:running",
+      "scoring:done",
+      "report:running",
+      "report:done",
     ])
   })
 
   it("rejects invalid input with an InputError", async () => {
-    await expect(analyze("javascript:alert(1)", "url", () => {}, deps())).rejects.toBeInstanceOf(InputError)
+    await expect(analyze("javascript:alert(1)", "url", () => {}, deps())).rejects.toBeInstanceOf(
+      InputError,
+    )
   })
 
   it("keeps unavailable checks out of the score and lists them as limitations", async () => {
@@ -74,7 +92,12 @@ describe("analyze pipeline", () => {
           status: "done",
           hops: [
             { url: "https://bit.ly/abc", hostname: "bit.ly", status: 301, crossDomain: false },
-            { url: "http://paypal-verify.example/login", hostname: "paypal-verify.example", status: 200, crossDomain: true },
+            {
+              url: "http://paypal-verify.example/login",
+              hostname: "paypal-verify.example",
+              status: 200,
+              crossDomain: true,
+            },
           ],
           finalUrl: "http://paypal-verify.example/login",
           loop: false,
@@ -92,15 +115,31 @@ describe("analyze pipeline", () => {
         }),
         checkThreatIntel: async () => ({
           status: "done",
-          providers: [{ id: "google_safe_browsing", name: "GSB", status: "match", detail: "SOCIAL_ENGINEERING" }],
+          providers: [
+            {
+              id: "google_safe_browsing",
+              name: "GSB",
+              status: "match",
+              detail: "SOCIAL_ENGINEERING",
+            },
+          ],
         }),
       }),
     )
     const ids = r.findings.map((f) => f.id)
     expect(ids).toEqual(
-      expect.arrayContaining(["shortener", "cross_domain_redirect", "brand_impersonation", "no_https", "domain_new_30", "threat_intel_match"]),
+      expect.arrayContaining([
+        "shortener",
+        "cross_domain_redirect",
+        "brand_impersonation",
+        "no_https",
+        "domain_new_30",
+        "threat_intel_match",
+      ]),
     )
-    expect(r.findings.find((f) => f.id === "brand_impersonation")?.evidence[0]).toMatch(/^Final destination:/)
+    expect(r.findings.find((f) => f.id === "brand_impersonation")?.evidence[0]).toMatch(
+      /^Final destination:/,
+    )
     expect(r.band).toBe("critical")
     expect(r.ml.status).toBe("available")
     expect(r.explanation.recommendations.join(" ")).toMatch(/Do not enter passwords/)

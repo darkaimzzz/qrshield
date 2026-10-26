@@ -1,4 +1,11 @@
-import { BookOpen, FlaskConical, History, LayoutDashboard, Radar, type LucideIcon } from "lucide-react"
+import {
+  BookOpen,
+  FlaskConical,
+  History,
+  LayoutDashboard,
+  Radar,
+  type LucideIcon,
+} from "lucide-react"
 
 export interface NavItem {
   href: string

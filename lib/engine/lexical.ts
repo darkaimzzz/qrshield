@@ -3,11 +3,48 @@ import type { Finding, LexicalFeatures, ParsedUrl } from "./types"
 
 /** Words common in credential-phishing lures. A single hit is never enough on its own. */
 export const SUSPICIOUS_KEYWORDS = [
-  "login", "logon", "signin", "sign-in", "verify", "verification", "validate", "account",
-  "update", "secure", "security", "confirm", "password", "passwd", "credential", "unlock",
-  "suspend", "suspended", "locked", "billing", "invoice", "payment", "refund", "reward",
-  "prize", "gift", "bonus", "claim", "urgent", "alert", "authenticate", "recover", "reset",
-  "kyc", "webscr", "wallet", "seed", "airdrop", "support", "helpdesk", "otp", "banking",
+  "login",
+  "logon",
+  "signin",
+  "sign-in",
+  "verify",
+  "verification",
+  "validate",
+  "account",
+  "update",
+  "secure",
+  "security",
+  "confirm",
+  "password",
+  "passwd",
+  "credential",
+  "unlock",
+  "suspend",
+  "suspended",
+  "locked",
+  "billing",
+  "invoice",
+  "payment",
+  "refund",
+  "reward",
+  "prize",
+  "gift",
+  "bonus",
+  "claim",
+  "urgent",
+  "alert",
+  "authenticate",
+  "recover",
+  "reset",
+  "kyc",
+  "webscr",
+  "wallet",
+  "seed",
+  "airdrop",
+  "support",
+  "helpdesk",
+  "otp",
+  "banking",
 ] as const
 
 /**
@@ -15,11 +52,45 @@ export const SUSPICIOUS_KEYWORDS = [
  * legitimate tools, but they hide the destination, which is exactly what a QR code already does.
  */
 export const URL_SHORTENERS = new Set([
-  "bit.ly", "bitly.com", "tinyurl.com", "t.co", "goo.gl", "ow.ly", "is.gd", "v.gd", "buff.ly",
-  "rebrand.ly", "cutt.ly", "shorturl.at", "rb.gy", "t.ly", "tiny.cc", "bl.ink", "s.id",
-  "lnkd.in", "shorte.st", "adf.ly", "bit.do", "short.gy", "tiny.one", "qrco.de", "qr.codes",
-  "qrs.ly", "q-r.to", "me-qr.com", "urlz.fr", "u.to", "clck.ru", "soo.gd", "trib.al", "dub.sh",
-  "shorturl.gg", "x.gd", "1url.com", "2.gp", "linktr.ee",
+  "bit.ly",
+  "bitly.com",
+  "tinyurl.com",
+  "t.co",
+  "goo.gl",
+  "ow.ly",
+  "is.gd",
+  "v.gd",
+  "buff.ly",
+  "rebrand.ly",
+  "cutt.ly",
+  "shorturl.at",
+  "rb.gy",
+  "t.ly",
+  "tiny.cc",
+  "bl.ink",
+  "s.id",
+  "lnkd.in",
+  "shorte.st",
+  "adf.ly",
+  "bit.do",
+  "short.gy",
+  "tiny.one",
+  "qrco.de",
+  "qr.codes",
+  "qrs.ly",
+  "q-r.to",
+  "me-qr.com",
+  "urlz.fr",
+  "u.to",
+  "clck.ru",
+  "soo.gd",
+  "trib.al",
+  "dub.sh",
+  "shorturl.gg",
+  "x.gd",
+  "1url.com",
+  "2.gp",
+  "linktr.ee",
 ])
 
 /**
@@ -27,14 +98,55 @@ export const URL_SHORTENERS = new Set([
  * "Phishing Landscape", Spamhaus TLD reputation). Low weight: most sites on them are benign.
  */
 export const ABUSED_TLDS = new Set([
-  "zip", "mov", "top", "xyz", "click", "link", "cfd", "sbs", "quest", "cyou", "rest", "icu",
-  "buzz", "monster", "gq", "tk", "ml", "cf", "ga", "work", "bond", "lol", "mom", "country",
-  "kim", "fit", "loan", "win", "bid",
+  "zip",
+  "mov",
+  "top",
+  "xyz",
+  "click",
+  "link",
+  "cfd",
+  "sbs",
+  "quest",
+  "cyou",
+  "rest",
+  "icu",
+  "buzz",
+  "monster",
+  "gq",
+  "tk",
+  "ml",
+  "cf",
+  "ga",
+  "work",
+  "bond",
+  "lol",
+  "mom",
+  "country",
+  "kim",
+  "fit",
+  "loan",
+  "win",
+  "bid",
 ])
 
 const EXECUTABLE_EXTENSIONS = [
-  "exe", "msi", "apk", "scr", "bat", "cmd", "vbs", "jar", "ps1", "dmg", "pkg", "iso", "hta",
-  "lnk", "xapk", "appx", "msix",
+  "exe",
+  "msi",
+  "apk",
+  "scr",
+  "bat",
+  "cmd",
+  "vbs",
+  "jar",
+  "ps1",
+  "dmg",
+  "pkg",
+  "iso",
+  "hta",
+  "lnk",
+  "xapk",
+  "appx",
+  "msix",
 ]
 
 // Zero-width and bidirectional-override characters used to disguise text.
@@ -140,9 +252,7 @@ export function extractLexical(parsed: ParsedUrl): LexicalFeatures {
     mixedScriptLabel,
     invisibleChars: (parsed.original.match(INVISIBLE) ?? []).length,
     suspiciousKeywords: findKeywords(parsed),
-    embeddedUrlInQuery: /(?:^|[=&?])(?:https?(?::|%3a)(?:\/\/|%2f%2f)|www\.)/i.test(
-      parsed.search,
-    ),
+    embeddedUrlInQuery: /(?:^|[=&?])(?:https?(?::|%3a)(?:\/\/|%2f%2f)|www\.)/i.test(parsed.search),
     executableExtension: ext && EXECUTABLE_EXTENSIONS.includes(ext) ? ext : null,
     tldIsUnusual: parsed.publicSuffix
       ? ABUSED_TLDS.has(parsed.publicSuffix.split(".").pop() ?? "")
@@ -266,7 +376,9 @@ export function lexicalFindings(
     encodingEvidence.push("Percent-encoding inside the hostname")
   }
   if (parsed.isIp && parsed.ipVersion === 4 && !parsed.original.includes(parsed.hostname)) {
-    encodingEvidence.push(`IP address written in non-standard notation (resolves to ${parsed.hostname})`)
+    encodingEvidence.push(
+      `IP address written in non-standard notation (resolves to ${parsed.hostname})`,
+    )
   }
   if (encodingEvidence.length) {
     out.push(

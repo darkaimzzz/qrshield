@@ -40,7 +40,10 @@ export function AnalyzeClient() {
     if (!hydrated) return null
     if (!saved) {
       return (
-        <Message title="Saved report not found" body="It may have been deleted from this device's history." />
+        <Message
+          title="Saved report not found"
+          body="It may have been deleted from this device's history."
+        />
       )
     }
     return (
@@ -52,7 +55,12 @@ export function AnalyzeClient() {
   }
 
   if (!input) {
-    return <Message title="Nothing to analyze" body="Scan a QR code, upload an image or paste a URL to start an analysis." />
+    return (
+      <Message
+        title="Nothing to analyze"
+        body="Scan a QR code, upload an image or paste a URL to start an analysis."
+      />
+    )
   }
 
   // A new key remounts the run, giving each analysis (and each retry) fresh state.
@@ -99,7 +107,8 @@ function AnalysisRun({
       },
       ctrl.signal,
     ).catch((err: Error) => {
-      if (err.name !== "AbortError") setError(err.message || "Could not reach the analysis service.")
+      if (err.name !== "AbortError")
+        setError(err.message || "Could not reach the analysis service.")
     })
     return () => ctrl.abort()
   }, [input, source])
@@ -111,13 +120,19 @@ function AnalysisRun({
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
           <StageProgress stages={stages} />
           <div className="surface flex flex-col justify-center gap-3 p-6">
-            <p className="text-xs tracking-wide text-muted-foreground uppercase">Analyzing</p>
-            <p className="font-mono text-sm break-all" data-testid="analyzing-input">{input}</p>
-            <p className="text-sm text-muted-foreground">
-              QRShield is inspecting this link from its server. Your browser does not open the destination at any point.
+            <p className="text-muted-foreground text-xs tracking-wide uppercase">Analyzing</p>
+            <p className="font-mono text-sm break-all" data-testid="analyzing-input">
+              {input}
+            </p>
+            <p className="text-muted-foreground text-sm">
+              QRShield is inspecting this link from its server. Your browser does not open the
+              destination at any point.
             </p>
             {error && (
-              <div role="alert" className="mt-2 flex flex-col gap-3 rounded-xl border border-risk-critical/30 bg-risk-critical/10 p-4 text-sm">
+              <div
+                role="alert"
+                className="border-risk-critical/30 bg-risk-critical/10 mt-2 flex flex-col gap-3 rounded-xl border p-4 text-sm"
+              >
                 <span className="flex items-center gap-2 font-medium text-red-200">
                   <AlertTriangle className="size-4" /> {error}
                 </span>
@@ -126,7 +141,9 @@ function AnalysisRun({
                     <RotateCcw /> Retry
                   </Button>
                   <Button size="sm" asChild>
-                    <Link href="/#scan"><ScanLine /> Scan something else</Link>
+                    <Link href="/#scan">
+                      <ScanLine /> Scan something else
+                    </Link>
                   </Button>
                 </span>
               </div>
@@ -146,7 +163,10 @@ function AnalysisRun({
 
 function BackLink() {
   return (
-    <Link href="/" className="no-print inline-flex w-fit items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+    <Link
+      href="/"
+      className="no-print text-muted-foreground hover:text-foreground inline-flex w-fit items-center gap-1.5 text-sm"
+    >
       <ArrowLeft className="size-4" /> Dashboard
     </Link>
   )
@@ -155,9 +175,9 @@ function BackLink() {
 function Message({ title, body }: { title: string; body: string }) {
   return (
     <div className="surface mx-auto flex max-w-lg flex-col items-center gap-3 p-8 text-center">
-      <ScanLine className="size-8 text-primary" />
+      <ScanLine className="text-primary size-8" />
       <h1 className="text-lg font-semibold">{title}</h1>
-      <p className="text-sm text-muted-foreground">{body}</p>
+      <p className="text-muted-foreground text-sm">{body}</p>
       <Button asChild>
         <Link href="/#scan">Start a scan</Link>
       </Button>

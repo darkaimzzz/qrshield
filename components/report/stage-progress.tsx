@@ -29,33 +29,48 @@ const STATUS_TEXT: Record<StageState["status"], string> = {
 function StatusIcon({ status }: { status: StageState["status"] }) {
   switch (status) {
     case "running":
-      return <Loader2 className="size-4 animate-spin text-primary" />
+      return <Loader2 className="text-primary size-4 animate-spin" />
     case "done":
-      return <CheckCircle2 className="size-4 text-risk-low" />
+      return <CheckCircle2 className="text-risk-low size-4" />
     case "failed":
-      return <XCircle className="size-4 text-risk-critical" />
+      return <XCircle className="text-risk-critical size-4" />
     case "skipped":
-      return <MinusCircle className="size-4 text-muted-foreground" />
+      return <MinusCircle className="text-muted-foreground size-4" />
     case "not_configured":
-      return <CircleDashed className="size-4 text-muted-foreground" />
+      return <CircleDashed className="text-muted-foreground size-4" />
     default:
-      return <Circle className="size-4 text-muted-foreground/50" />
+      return <Circle className="text-muted-foreground/50 size-4" />
   }
 }
 
-export function StageProgress({ stages, compact = false }: { stages: Record<StageId, StageState>; compact?: boolean }) {
-  const finished = STAGES.filter((s) => !["pending", "running"].includes(stages[s.id].status)).length
+export function StageProgress({
+  stages,
+  compact = false,
+}: {
+  stages: Record<StageId, StageState>
+  compact?: boolean
+}) {
+  const finished = STAGES.filter(
+    (s) => !["pending", "running"].includes(stages[s.id].status),
+  ).length
   return (
     <div className="surface p-5" data-testid="stage-progress">
       <div className="mb-4 flex items-center justify-between gap-4">
         <h2 className="font-semibold">{compact ? "Analysis stages" : "Analyzing destination"}</h2>
-        <span className="font-mono text-xs text-muted-foreground tabular-nums">
+        <span className="text-muted-foreground font-mono text-xs tabular-nums">
           {finished}/{STAGES.length}
         </span>
       </div>
-      <div className="mb-4 h-1 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuemin={0} aria-valuemax={STAGES.length} aria-valuenow={finished} aria-label="Analysis progress">
+      <div
+        className="bg-muted mb-4 h-1 overflow-hidden rounded-full"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={STAGES.length}
+        aria-valuenow={finished}
+        aria-label="Analysis progress"
+      >
         <motion.div
-          className="h-full bg-gradient-to-r from-primary to-violet"
+          className="from-primary to-violet h-full bg-gradient-to-r"
           animate={{ width: `${(finished / STAGES.length) * 100}%` }}
           transition={{ duration: 0.35 }}
         />
@@ -73,12 +88,20 @@ export function StageProgress({ stages, compact = false }: { stages: Record<Stag
                 st.status === "running" && "bg-primary/5",
               )}
             >
-              <span className="mt-0.5"><StatusIcon status={st.status} /></span>
-              <span className="min-w-0 flex-1">
-                <span className={cn(st.status === "pending" && "text-muted-foreground")}>{s.label}</span>
-                {st.detail && !compact && <span className="block truncate text-xs text-muted-foreground">{st.detail}</span>}
+              <span className="mt-0.5">
+                <StatusIcon status={st.status} />
               </span>
-              <span className="shrink-0 text-xs text-muted-foreground">{STATUS_TEXT[st.status]}</span>
+              <span className="min-w-0 flex-1">
+                <span className={cn(st.status === "pending" && "text-muted-foreground")}>
+                  {s.label}
+                </span>
+                {st.detail && !compact && (
+                  <span className="text-muted-foreground block truncate text-xs">{st.detail}</span>
+                )}
+              </span>
+              <span className="text-muted-foreground shrink-0 text-xs">
+                {STATUS_TEXT[st.status]}
+              </span>
             </li>
           )
         })}

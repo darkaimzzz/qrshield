@@ -33,13 +33,25 @@ describe("scoreFindings", () => {
   })
 
   it("explains the score exactly by finding contributions", () => {
-    const r = scoreFindings([f("shortener"), f("cross_domain_redirect"), f("no_https"), f("long_url")])
+    const r = scoreFindings([
+      f("shortener"),
+      f("cross_domain_redirect"),
+      f("no_https"),
+      f("long_url"),
+    ])
     expect(r.score).toBe(Math.round(r.findings.reduce((s, x) => s + x.contribution, 0)))
   })
 
   it("maps band boundaries", () => {
     expect([0, 24, 25, 49, 50, 74, 75, 100].map(bandFor)).toEqual([
-      "low", "low", "moderate", "moderate", "high", "high", "critical", "critical",
+      "low",
+      "low",
+      "moderate",
+      "moderate",
+      "high",
+      "high",
+      "critical",
+      "critical",
     ])
   })
 })

@@ -45,7 +45,7 @@ export function Logo({ className, id }: { className?: string; id?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <LogoMark id={id} />
-      <span className="text-[15px] font-semibold tracking-tight text-foreground">
+      <span className="text-foreground text-[15px] font-semibold tracking-tight">
         QR<span className="text-primary">Shield</span>
       </span>
     </span>

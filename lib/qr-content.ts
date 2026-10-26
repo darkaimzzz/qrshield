@@ -8,7 +8,11 @@ export type QrContent =
   | { kind: "url"; text: string }
   | { kind: "upi"; text: string; fields: { label: string; value: string }[] }
   | { kind: "wifi"; text: string; fields: { label: string; value: string }[] }
-  | { kind: "tel" | "sms" | "email" | "geo" | "contact"; text: string; fields: { label: string; value: string }[] }
+  | {
+      kind: "tel" | "sms" | "email" | "geo" | "contact"
+      text: string
+      fields: { label: string; value: string }[]
+    }
   | { kind: "blocked_scheme"; text: string; scheme: string }
   | { kind: "text"; text: string }
 
@@ -60,10 +64,18 @@ export function classifyQrContent(raw: string): QrContent {
   if (scheme === "tel") return { kind: "tel", text, fields: field("Phone number", text.slice(4)) }
   if (scheme === "sms" || scheme === "smsto") {
     const [, num, body] = /^smsto?:([^:?]*)[:?]?(?:body=)?(.*)$/i.exec(text) ?? []
-    return { kind: "sms", text, fields: [...field("Recipient", num), ...field("Prefilled message", decodeSafe(body))] }
+    return {
+      kind: "sms",
+      text,
+      fields: [...field("Recipient", num), ...field("Prefilled message", decodeSafe(body))],
+    }
   }
   if (scheme === "mailto" || /^MATMSG:/i.test(text)) {
-    return { kind: "email", text, fields: field("Address", text.replace(/^mailto:/i, "").split("?")[0]) }
+    return {
+      kind: "email",
+      text,
+      fields: field("Address", text.replace(/^mailto:/i, "").split("?")[0]),
+    }
   }
   if (scheme === "geo") return { kind: "geo", text, fields: field("Coordinates", text.slice(4)) }
   if (/^BEGIN:VCARD/i.test(text) || /^MECARD:/i.test(text)) {
@@ -71,7 +83,12 @@ export function classifyQrContent(raw: string): QrContent {
     return { kind: "contact", text, fields: field("Name", name) }
   }
 
-  if (scheme && scheme !== "http" && scheme !== "https" && !/^[^/?#:@]+:\d{1,5}(?:[/?#]|$)/.test(text)) {
+  if (
+    scheme &&
+    scheme !== "http" &&
+    scheme !== "https" &&
+    !/^[^/?#:@]+:\d{1,5}(?:[/?#]|$)/.test(text)
+  ) {
     return { kind: "blocked_scheme", text, scheme }
   }
   return parseUrl(text).ok ? { kind: "url", text } : { kind: "text", text }
@@ -86,7 +103,10 @@ function decodeSafe(s: string | undefined) {
   }
 }
 
-export const CONTENT_GUIDANCE: Record<Exclude<QrContent["kind"], "url">, { title: string; body: string }> = {
+export const CONTENT_GUIDANCE: Record<
+  Exclude<QrContent["kind"], "url">,
+  { title: string; body: string }
+> = {
   upi: {
     title: "UPI payment request",
     body: "This QR code asks your payment app to send money. Scanning a QR code is never required to receive money. Before paying, check that the payee name your UPI app shows matches who you intend to pay, and be wary of codes stuck over a shop's original QR.",

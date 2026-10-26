@@ -15,7 +15,13 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import type { Report } from "@/lib/engine/types"
 import { historyStore, useHistory } from "@/lib/history"
 import { downloadReportPdf, reportSummaryText } from "@/lib/pdf"
@@ -61,25 +67,41 @@ export function ReportView({ report }: { report: Report }) {
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className={cn("surface relative overflow-hidden p-5 sm:p-7", band.border)}
       >
-        <div className="absolute -top-28 -left-28 size-72 rounded-full blur-3xl" style={{ background: `${band.hex}22` }} aria-hidden="true" />
+        <div
+          className="absolute -top-28 -left-28 size-72 rounded-full blur-3xl"
+          style={{ background: `${band.hex}22` }}
+          aria-hidden="true"
+        />
         <div className="relative flex flex-col items-center gap-6 md:flex-row md:items-center">
           <RiskGauge score={report.score} band={report.band} />
           <div className="min-w-0 flex-1 text-center md:text-left">
-            <span className={cn("inline-flex rounded-full border px-3 py-1 text-sm font-medium", band.text, band.bg, band.border)} data-testid="risk-band">
+            <span
+              className={cn(
+                "inline-flex rounded-full border px-3 py-1 text-sm font-medium",
+                band.text,
+                band.bg,
+                band.border,
+              )}
+              data-testid="risk-band"
+            >
               {band.label}
             </span>
-            <h1 className="mt-3 font-mono text-xl font-semibold break-all sm:text-2xl">{report.parsed.hostname}</h1>
+            <h1 className="mt-3 font-mono text-xl font-semibold break-all sm:text-2xl">
+              {report.parsed.hostname}
+            </h1>
             {finalHost && finalHost !== report.parsed.hostname && (
-              <p className="mt-1 text-sm text-muted-foreground">
-                Final destination: <span className="font-mono break-all text-foreground">{finalHost}</span>
+              <p className="text-muted-foreground mt-1 text-sm">
+                Final destination:{" "}
+                <span className="text-foreground font-mono break-all">{finalHost}</span>
               </p>
             )}
-            <p className="mt-3 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-3 text-sm">
               {formatDateTime(report.createdAt)} · {SOURCE_LABEL[report.source]}
             </p>
             {report.band === "low" && (
-              <p className="mt-2 text-xs text-muted-foreground">
-                Low detected risk means few warning signs were found, not that the destination is guaranteed safe.
+              <p className="text-muted-foreground mt-2 text-xs">
+                Low detected risk means few warning signs were found, not that the destination is
+                guaranteed safe.
               </p>
             )}
           </div>
@@ -87,7 +109,9 @@ export function ReportView({ report }: { report: Report }) {
 
         <div className="no-print relative mt-6 flex flex-wrap justify-center gap-2 md:justify-start">
           <Button asChild>
-            <Link href="/#scan"><ScanLine /> Scan another QR</Link>
+            <Link href="/#scan">
+              <ScanLine /> Scan another QR
+            </Link>
           </Button>
           <Button
             variant="secondary"
@@ -113,7 +137,8 @@ export function ReportView({ report }: { report: Report }) {
               }
             }}
           >
-            {saved ? <BookmarkCheck className="text-primary" /> : <Bookmark />} {saved ? "Saved to history" : "Save to history"}
+            {saved ? <BookmarkCheck className="text-primary" /> : <Bookmark />}{" "}
+            {saved ? "Saved to history" : "Save to history"}
           </Button>
           <Button variant="secondary" onClick={pdf} disabled={pdfBusy}>
             {pdfBusy ? <Loader2 className="animate-spin" /> : <FileDown />} Download PDF
@@ -149,13 +174,17 @@ export function ReportView({ report }: { report: Report }) {
         <DialogContent className="max-h-[85dvh] max-w-3xl overflow-hidden sm:max-w-3xl">
           <DialogHeader>
             <DialogTitle>Detailed findings</DialogTitle>
-            <DialogDescription>Every finding with its evidence, followed by the complete report data.</DialogDescription>
+            <DialogDescription>
+              Every finding with its evidence, followed by the complete report data.
+            </DialogDescription>
           </DialogHeader>
           <div className="-mx-6 max-h-[65dvh] space-y-4 overflow-y-auto px-6">
             <FindingsPanel report={report} expandAll />
             <div>
-              <p className="mb-1.5 text-xs tracking-wide text-muted-foreground uppercase">Raw report JSON</p>
-              <pre className="overflow-x-auto rounded-xl border border-border bg-black/40 p-3 font-mono text-[11px] leading-relaxed">
+              <p className="text-muted-foreground mb-1.5 text-xs tracking-wide uppercase">
+                Raw report JSON
+              </p>
+              <pre className="border-border overflow-x-auto rounded-xl border bg-black/40 p-3 font-mono text-[11px] leading-relaxed">
                 {JSON.stringify(report, null, 2)}
               </pre>
             </div>

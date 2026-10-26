@@ -18,7 +18,16 @@ describe("parseRdap", () => {
         ],
         entities: [
           { roles: ["registrant"] },
-          { roles: ["registrar"], vcardArray: ["vcard", [["version", {}, "text", "4.0"], ["fn", {}, "text", "Example Registrar, Inc."]]] },
+          {
+            roles: ["registrar"],
+            vcardArray: [
+              "vcard",
+              [
+                ["version", {}, "text", "4.0"],
+                ["fn", {}, "text", "Example Registrar, Inc."],
+              ],
+            ],
+          },
         ],
       },
       now,
@@ -33,12 +42,17 @@ describe("parseRdap", () => {
   })
 
   it("leaves missing or malformed data as null rather than guessing", () => {
-    expect(parseRdap({ events: [{ eventAction: "registration", eventDate: "garbage" }] }, now)).toMatchObject({
+    expect(
+      parseRdap({ events: [{ eventAction: "registration", eventDate: "garbage" }] }, now),
+    ).toMatchObject({
       registrationDate: null,
       registrar: null,
       ageDays: null,
     })
-    expect(parseRdap({ events: [{ eventAction: "registration", eventDate: "2030-01-01" }] }, now).ageDays).toBeNull()
+    expect(
+      parseRdap({ events: [{ eventAction: "registration", eventDate: "2030-01-01" }] }, now)
+        .ageDays,
+    ).toBeNull()
   })
 })
 
@@ -53,19 +67,25 @@ describe("checkThreatIntel", () => {
   })
 
   it("never reports an unqueried provider as clean", async () => {
-    const r = await checkThreatIntel(["https://a.example/"], [
-      provider({ id: "off", unavailableReason: () => "Not configured" }),
-      provider({ id: "boom", check: async () => Promise.reject(new Error("HTTP 503")) }),
-    ])
+    const r = await checkThreatIntel(
+      ["https://a.example/"],
+      [
+        provider({ id: "off", unavailableReason: () => "Not configured" }),
+        provider({ id: "boom", check: async () => Promise.reject(new Error("HTTP 503")) }),
+      ],
+    )
     expect(r.providers.map((p) => p.status)).toEqual(["not_checked", "error"])
     expect(r.status).toBe("failed")
   })
 
   it("reports matches and no_match from providers that ran", async () => {
-    const r = await checkThreatIntel(["https://a.example/"], [
-      provider({ id: "hit", check: async () => ({ matched: true, detail: "listed" }) }),
-      provider({ id: "miss" }),
-    ])
+    const r = await checkThreatIntel(
+      ["https://a.example/"],
+      [
+        provider({ id: "hit", check: async () => ({ matched: true, detail: "listed" }) }),
+        provider({ id: "miss" }),
+      ],
+    )
     expect(r.providers.map((p) => p.status)).toEqual(["match", "no_match"])
     expect(r.status).toBe("done")
   })

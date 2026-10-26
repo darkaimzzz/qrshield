@@ -63,7 +63,10 @@ export function classify(hostname: string): MlResult {
       topFactors: [],
     }
   }
-  const host = hostname.toLowerCase().replace(/\.$/, "").replace(/^www\./, "")
+  const host = hostname
+    .toLowerCase()
+    .replace(/\.$/, "")
+    .replace(/^www\./, "")
   const { probability, contributions } = predictProbability(host)
   const names = featureNames()
   const topFactors = contributions

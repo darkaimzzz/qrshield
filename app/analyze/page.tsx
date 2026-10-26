@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Security Analysis" }
 export default function AnalyzePage() {
   return (
     <div className="mx-auto max-w-6xl">
-      <Suspense fallback={<div className="h-96 animate-pulse rounded-2xl bg-muted/40" />}>
+      <Suspense fallback={<div className="bg-muted/40 h-96 animate-pulse rounded-2xl" />}>
         <AnalyzeClient />
       </Suspense>
     </div>

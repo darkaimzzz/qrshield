@@ -24,8 +24,12 @@ const EMPTY: Report[] = []
 function isReport(x: unknown): x is Report {
   const r = x as Report
   return (
-    typeof r === "object" && r !== null && r.version === REPORT_VERSION &&
-    typeof r.id === "string" && typeof r.score === "number" && typeof r.createdAt === "string"
+    typeof r === "object" &&
+    r !== null &&
+    r.version === REPORT_VERSION &&
+    typeof r.id === "string" &&
+    typeof r.score === "number" &&
+    typeof r.createdAt === "string"
   )
 }
 
@@ -66,7 +70,8 @@ export function createLocalHistoryStore(storage: () => Storage | null): HistoryS
   return {
     list: () => read(),
     get: (id) => read().find((r) => r.id === id),
-    save: (report) => write([report, ...read().filter((r) => r.id !== report.id)].slice(0, MAX_ENTRIES)),
+    save: (report) =>
+      write([report, ...read().filter((r) => r.id !== report.id)].slice(0, MAX_ENTRIES)),
     remove: (id) => write(read().filter((r) => r.id !== id)),
     clear: () => write([]),
     subscribe: (l) => {

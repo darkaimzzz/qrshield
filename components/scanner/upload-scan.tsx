@@ -19,9 +19,12 @@ export function UploadScan({ onDecoded }: { onDecoded: (text: string) => void })
   const [dragging, setDragging] = useState(false)
 
   // Revoke object URLs so image data is released from memory.
-  useEffect(() => () => {
-    if (preview) URL.revokeObjectURL(preview.url)
-  }, [preview])
+  useEffect(
+    () => () => {
+      if (preview) URL.revokeObjectURL(preview.url)
+    },
+    [preview],
+  )
 
   async function handleFile(file: File | undefined) {
     if (!file) return
@@ -34,7 +37,8 @@ export function UploadScan({ onDecoded }: { onDecoded: (text: string) => void })
       if (results.length === 0) {
         setStatus({
           kind: "error",
-          message: "No QR code was found in this image. Try a sharper, well-lit photo with the whole code visible.",
+          message:
+            "No QR code was found in this image. Try a sharper, well-lit photo with the whole code visible.",
         })
       } else if (results.length === 1) {
         setStatus({ kind: "idle" })
@@ -45,7 +49,10 @@ export function UploadScan({ onDecoded }: { onDecoded: (text: string) => void })
     } catch (err) {
       setStatus({
         kind: "error",
-        message: err instanceof DecodeError ? err.message : "The QR decoder failed to load. Check your connection and retry.",
+        message:
+          err instanceof DecodeError
+            ? err.message
+            : "The QR decoder failed to load. Check your connection and retry.",
       })
     }
   }
@@ -67,7 +74,7 @@ export function UploadScan({ onDecoded }: { onDecoded: (text: string) => void })
           handleFile(e.dataTransfer.files[0])
         }}
         className={cn(
-          "grid-bg relative flex min-h-64 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border p-6 text-center transition-colors hover:border-primary/60 focus-within:border-primary",
+          "grid-bg border-border hover:border-primary/60 focus-within:border-primary relative flex min-h-64 cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border border-dashed p-6 text-center transition-colors",
           dragging && "border-primary bg-primary/5",
         )}
       >
@@ -82,31 +89,44 @@ export function UploadScan({ onDecoded }: { onDecoded: (text: string) => void })
         />
         {preview ? (
           // eslint-disable-next-line @next/next/no-img-element -- local object URL preview
-          <img src={preview.url} alt={`Preview of ${preview.name}`} className="max-h-56 rounded-lg object-contain" />
+          <img
+            src={preview.url}
+            alt={`Preview of ${preview.name}`}
+            className="max-h-56 rounded-lg object-contain"
+          />
         ) : (
           <>
-            <span className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <span className="bg-primary/10 text-primary flex size-12 items-center justify-center rounded-xl">
               <ImageUp className="size-6" />
             </span>
             <span className="font-medium">Drop a QR code image here or click to browse</span>
-            <span className="text-sm text-muted-foreground">PNG, JPG or WebP up to 8 MB. Decoded locally; the image is never uploaded or stored.</span>
+            <span className="text-muted-foreground text-sm">
+              PNG, JPG or WebP up to 8 MB. Decoded locally; the image is never uploaded or stored.
+            </span>
           </>
         )}
         {status.kind === "decoding" && (
-          <span className="absolute inset-0 flex items-center justify-center gap-2 rounded-2xl bg-background/70 text-sm">
-            <Loader2 className="size-4 animate-spin text-primary" /> Decoding on your device…
+          <span className="bg-background/70 absolute inset-0 flex items-center justify-center gap-2 rounded-2xl text-sm">
+            <Loader2 className="text-primary size-4 animate-spin" /> Decoding on your device…
           </span>
         )}
       </label>
 
       {status.kind === "error" && (
-        <p role="alert" className="rounded-lg border border-risk-critical/30 bg-risk-critical/10 px-3 py-2 text-sm text-red-200">
+        <p
+          role="alert"
+          className="border-risk-critical/30 bg-risk-critical/10 rounded-lg border px-3 py-2 text-sm text-red-200"
+        >
           {status.message}
         </p>
       )}
 
       {status.kind === "choose" && (
-        <div className="rounded-xl border border-border bg-card/60 p-4" role="group" aria-label="Multiple QR codes found">
+        <div
+          className="border-border bg-card/60 rounded-xl border p-4"
+          role="group"
+          aria-label="Multiple QR codes found"
+        >
           <p className="mb-3 text-sm font-medium">
             {status.results.length} QR codes found. Choose one to analyze:
           </p>
@@ -116,10 +136,10 @@ export function UploadScan({ onDecoded }: { onDecoded: (text: string) => void })
                 <button
                   type="button"
                   onClick={() => onDecoded(text)}
-                  className="flex w-full items-center gap-3 rounded-lg border border-border bg-background/50 px-3 py-2 text-left transition hover:border-primary/60 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                  className="border-border bg-background/50 hover:border-primary/60 focus-visible:ring-ring flex w-full items-center gap-3 rounded-lg border px-3 py-2 text-left transition focus-visible:ring-2 focus-visible:outline-none"
                 >
-                  <QrCode className="size-4 shrink-0 text-primary" />
-                  <span className="text-xs text-muted-foreground">#{i + 1}</span>
+                  <QrCode className="text-primary size-4 shrink-0" />
+                  <span className="text-muted-foreground text-xs">#{i + 1}</span>
                   <span className="min-w-0 flex-1 truncate font-mono text-sm">{text}</span>
                 </button>
               </li>
@@ -129,9 +149,10 @@ export function UploadScan({ onDecoded }: { onDecoded: (text: string) => void })
       )}
 
       {preview && (
-        <div className="flex items-center justify-between gap-2 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex items-center justify-between gap-2 text-sm">
           <span className="flex min-w-0 items-center gap-2">
-            <FileImage className="size-4 shrink-0" /> <span className="truncate">{preview.name}</span>
+            <FileImage className="size-4 shrink-0" />{" "}
+            <span className="truncate">{preview.name}</span>
           </span>
           <Button variant="ghost" size="sm" onClick={reset}>
             <X /> Clear

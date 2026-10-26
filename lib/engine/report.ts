@@ -35,7 +35,12 @@ export interface AnalyzeDeps {
   warmThreatFeeds: () => void
 }
 
-const defaultDeps: AnalyzeDeps = { inspectRedirects, lookupDomain, checkThreatIntel, warmThreatFeeds }
+const defaultDeps: AnalyzeDeps = {
+  inspectRedirects,
+  lookupDomain,
+  checkThreatIntel,
+  warmThreatFeeds,
+}
 
 function redirectFindings(r: RedirectResult): Finding[] {
   const out: Finding[] = []
@@ -66,7 +71,11 @@ function redirectFindings(r: RedirectResult): Finding[] {
       makeFinding(
         "long_redirect_chain",
         "The link passes through several redirects before reaching its destination, which makes the final site harder to anticipate.",
-        [r.loop ? "Redirect loop detected" : `${r.hops.length - 1} redirects${r.truncated ? " (chain continues)" : ""}`],
+        [
+          r.loop
+            ? "Redirect loop detected"
+            : `${r.hops.length - 1} redirects${r.truncated ? " (chain continues)" : ""}`,
+        ],
       ),
     )
   }
@@ -207,7 +216,9 @@ export async function analyze(
       return d
     }),
     deps.checkThreatIntel(urlsToCheck).then((t) => {
-      const checked = t.providers.filter((x) => x.status === "match" || x.status === "no_match").length
+      const checked = t.providers.filter(
+        (x) => x.status === "match" || x.status === "no_match",
+      ).length
       stage("threat_intel", t.status, `${checked} of ${t.providers.length} sources checked`)
       return t
     }),
@@ -235,12 +246,14 @@ export async function analyze(
     structure: `${structure.findings.length} structural indicator(s) on the scanned URL`,
     domain: domain.detail,
     redirects: redirects.detail,
-    threat_intel: threatIntel.providers.map((x) => `${x.name}: ${x.status.replace("_", " ")}`).join("; "),
+    threat_intel: threatIntel.providers
+      .map((x) => `${x.name}: ${x.status.replace("_", " ")}`)
+      .join("; "),
     scoring: `${scored.findings.length} finding(s), score ${scored.score}`,
   }
-  const checks: CheckSummary[] = (["structure", "domain", "redirects", "threat_intel", "scoring"] as const).map(
-    (id) => ({ id, label: STAGE_LABELS[id], status: statusOf[id], detail: details[id] ?? "" }),
-  )
+  const checks: CheckSummary[] = (
+    ["structure", "domain", "redirects", "threat_intel", "scoring"] as const
+  ).map((id) => ({ id, label: STAGE_LABELS[id], status: statusOf[id], detail: details[id] ?? "" }))
 
   const limitations = [
     "QRShield inspects the link and its HTTP redirects only. It does not render pages or run scripts, so JavaScript or meta-refresh redirects and the page's actual content are not analyzed.",
@@ -248,13 +261,20 @@ export async function analyze(
   ]
   if (parsed.assumedProtocol) limitations.push("No scheme was provided, so https:// was assumed.")
   if (upgradedToHttps) {
-    limitations.push("The QR link starts with http:// and the site upgrades it to HTTPS; that first request is still unencrypted.")
+    limitations.push(
+      "The QR link starts with http:// and the site upgrades it to HTTPS; that first request is still unencrypted.",
+    )
   }
-  if (domain.status !== "done") limitations.push(`Domain registration data unavailable: ${domain.detail}`)
-  else if (domain.ageDays === null) limitations.push("Domain age could not be determined from the registry response.")
-  if (redirects.status !== "done") limitations.push(`Redirects were not resolved: ${redirects.detail}`)
+  if (domain.status !== "done")
+    limitations.push(`Domain registration data unavailable: ${domain.detail}`)
+  else if (domain.ageDays === null)
+    limitations.push("Domain age could not be determined from the registry response.")
+  if (redirects.status !== "done")
+    limitations.push(`Redirects were not resolved: ${redirects.detail}`)
   if (threatIntel.providers.every((x) => x.status !== "no_match" && x.status !== "match")) {
-    limitations.push("No threat-intelligence source could be queried; absence of a listing was not checked.")
+    limitations.push(
+      "No threat-intelligence source could be queried; absence of a listing was not checked.",
+    )
   }
 
   const base = {

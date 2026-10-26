@@ -58,7 +58,8 @@ export function createSafeLookup(resolve: Resolver = dns.lookup as unknown as Re
   return function safeLookup(hostname: string, options: LookupOptions, cb: LookupCallback) {
     resolve(hostname, { all: true, verbatim: true }, (err, addresses) => {
       if (err) return cb(err, [])
-      if (!addresses?.length) return cb(new BlockedDestinationError(`${hostname} did not resolve`), [])
+      if (!addresses?.length)
+        return cb(new BlockedDestinationError(`${hostname} did not resolve`), [])
       const bad = addresses.find((a) => !isPublicAddress(a.address))
       if (bad) {
         return cb(
@@ -69,7 +70,8 @@ export function createSafeLookup(resolve: Resolver = dns.lookup as unknown as Re
       const usable = options.family
         ? addresses.filter((a) => a.family === options.family)
         : addresses
-      if (!usable.length) return cb(new BlockedDestinationError(`${hostname}: no usable address`), [])
+      if (!usable.length)
+        return cb(new BlockedDestinationError(`${hostname}: no usable address`), [])
       if (options.all) cb(null, usable)
       else cb(null, usable[0].address, usable[0].family)
     })
@@ -202,7 +204,14 @@ export async function inspectRedirects(
     }
     if (seen.has(current)) {
       hops.push({ url: current, hostname, status: null, crossDomain, error: "Redirect loop" })
-      return { status: "done", hops, finalUrl: current, loop: true, truncated: false, detail: "Redirect loop detected." }
+      return {
+        status: "done",
+        hops,
+        finalUrl: current,
+        loop: true,
+        truncated: false,
+        detail: "Redirect loop detected.",
+      }
     }
     seen.add(current)
 
@@ -241,7 +250,14 @@ export async function inspectRedirects(
     try {
       current = new URL(res.location!, current).href
     } catch {
-      return { status: "done", hops, finalUrl: current, loop: false, truncated: false, detail: "Malformed redirect Location header." }
+      return {
+        status: "done",
+        hops,
+        finalUrl: current,
+        loop: false,
+        truncated: false,
+        detail: "Malformed redirect Location header.",
+      }
     }
   }
 

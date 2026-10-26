@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { parseUrl } from "@/lib/engine/parse"
 
-export function UrlInput({ onSubmit, pending }: { onSubmit: (url: string) => void; pending: boolean }) {
+export function UrlInput({
+  onSubmit,
+  pending,
+}: {
+  onSubmit: (url: string) => void
+  pending: boolean
+}) {
   const [value, setValue] = useState("")
   const [error, setError] = useState<string | null>(null)
   const result = value.trim() ? parseUrl(value) : null
@@ -28,7 +34,7 @@ export function UrlInput({ onSubmit, pending }: { onSubmit: (url: string) => voi
       </label>
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
-          <Link2 className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Link2 className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
           <Input
             id="url-input"
             inputMode="url"
@@ -50,12 +56,17 @@ export function UrlInput({ onSubmit, pending }: { onSubmit: (url: string) => voi
       </div>
       <p id="url-help" className="min-h-5 text-xs" aria-live="polite">
         {error ? (
-          <span role="alert" className="text-red-300">{error}</span>
+          <span role="alert" className="text-red-300">
+            {error}
+          </span>
         ) : assumed ? (
-          <span className="text-risk-moderate">No scheme given. QRShield will analyze it as https://{result.url.hostname}.</span>
+          <span className="text-risk-moderate">
+            No scheme given. QRShield will analyze it as https://{result.url.hostname}.
+          </span>
         ) : (
           <span className="text-muted-foreground">
-            Only http and https links are analyzed. QRShield never opens the destination in your browser.
+            Only http and https links are analyzed. QRShield never opens the destination in your
+            browser.
           </span>
         )}
       </p>

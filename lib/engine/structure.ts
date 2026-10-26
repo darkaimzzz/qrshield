@@ -7,7 +7,10 @@ import type { Finding, LexicalFeatures, ParsedUrl } from "./types"
  * Offline analysis of the URL text: lexical features, structural findings and impersonation.
  * Isomorphic (no Node APIs), so the education pages can run the real engine in the browser.
  */
-export function analyzeStructure(parsed: ParsedUrl): { lexical: LexicalFeatures; findings: Finding[] } {
+export function analyzeStructure(parsed: ParsedUrl): {
+  lexical: LexicalFeatures
+  findings: Finding[]
+} {
   const lexical = extractLexical(parsed)
   const brandOwned = isBrandOwned(parsed) !== null
   const findings = impersonationFindings(parsed, lexical)

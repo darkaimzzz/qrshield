@@ -39,7 +39,11 @@ export async function llmExplanation(
     score: report.score,
     hostname: report.parsed.hostname,
     finalHostname: report.redirects.hops.at(-1)?.hostname ?? null,
-    findings: report.findings.map((f) => ({ title: f.title, severity: f.severity, evidence: f.evidence.slice(0, 3) })),
+    findings: report.findings.map((f) => ({
+      title: f.title,
+      severity: f.severity,
+      evidence: f.evidence.slice(0, 3),
+    })),
     checksNotCompleted: report.checks.filter((c) => c.status !== "done").map((c) => c.label),
     templateRecommendations: fallback.recommendations,
   }

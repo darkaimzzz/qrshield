@@ -1,10 +1,37 @@
 import type { InputSource, RiskBand, Severity } from "@/lib/engine/types"
 
-export const BAND_STYLE: Record<RiskBand, { label: string; text: string; bg: string; border: string; hex: string }> = {
-  low: { label: "Low Detected Risk", text: "text-risk-low", bg: "bg-risk-low/10", border: "border-risk-low/30", hex: "#10b981" },
-  moderate: { label: "Moderate Risk", text: "text-risk-moderate", bg: "bg-risk-moderate/10", border: "border-risk-moderate/30", hex: "#f59e0b" },
-  high: { label: "High Risk", text: "text-risk-high", bg: "bg-risk-high/10", border: "border-risk-high/30", hex: "#f97316" },
-  critical: { label: "Critical Risk", text: "text-risk-critical", bg: "bg-risk-critical/10", border: "border-risk-critical/30", hex: "#ef4444" },
+export const BAND_STYLE: Record<
+  RiskBand,
+  { label: string; text: string; bg: string; border: string; hex: string }
+> = {
+  low: {
+    label: "Low Detected Risk",
+    text: "text-risk-low",
+    bg: "bg-risk-low/10",
+    border: "border-risk-low/30",
+    hex: "#10b981",
+  },
+  moderate: {
+    label: "Moderate Risk",
+    text: "text-risk-moderate",
+    bg: "bg-risk-moderate/10",
+    border: "border-risk-moderate/30",
+    hex: "#f59e0b",
+  },
+  high: {
+    label: "High Risk",
+    text: "text-risk-high",
+    bg: "bg-risk-high/10",
+    border: "border-risk-high/30",
+    hex: "#f97316",
+  },
+  critical: {
+    label: "Critical Risk",
+    text: "text-risk-critical",
+    bg: "bg-risk-critical/10",
+    border: "border-risk-critical/30",
+    hex: "#ef4444",
+  },
 }
 
 export const SEVERITY_STYLE: Record<Severity, string> = {

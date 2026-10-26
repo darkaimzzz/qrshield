@@ -59,7 +59,9 @@ export function ScanPanel() {
           <h2 id="scan-heading" className="text-lg font-semibold tracking-tight">
             Scan &amp; analyze
           </h2>
-          <p className="text-sm text-muted-foreground">Decoded content is analyzed without opening it.</p>
+          <p className="text-muted-foreground text-sm">
+            Decoded content is analyzed without opening it.
+          </p>
         </div>
       </div>
 
@@ -69,10 +71,16 @@ export function ScanPanel() {
         <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)}>
           <TabsList className="grid h-11 w-full grid-cols-3">
             <TabsTrigger value="camera" className="gap-1.5">
-              <Camera className="size-4" /> <span>Camera<span className="hidden sm:inline"> Scan</span></span>
+              <Camera className="size-4" />{" "}
+              <span>
+                Camera<span className="hidden sm:inline"> Scan</span>
+              </span>
             </TabsTrigger>
             <TabsTrigger value="upload" className="gap-1.5">
-              <ImageUp className="size-4" /> <span>Upload<span className="hidden sm:inline"> QR Image</span></span>
+              <ImageUp className="size-4" />{" "}
+              <span>
+                Upload<span className="hidden sm:inline"> QR Image</span>
+              </span>
             </TabsTrigger>
             <TabsTrigger value="url" className="gap-1.5">
               <Link2 className="size-4" /> <span>Paste URL</span>
@@ -80,7 +88,10 @@ export function ScanPanel() {
           </TabsList>
           {/* Inactive tabs unmount, which releases the camera when switching away. */}
           <TabsContent value="camera" className="pt-4">
-            <CameraScan onDecoded={(t) => handle(t, "camera")} onUseUpload={() => setTab("upload")} />
+            <CameraScan
+              onDecoded={(t) => handle(t, "camera")}
+              onUseUpload={() => setTab("upload")}
+            />
           </TabsContent>
           <TabsContent value="upload" className="pt-4">
             <UploadScan onDecoded={(t) => handle(t, "upload")} />

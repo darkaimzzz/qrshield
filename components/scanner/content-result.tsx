@@ -16,16 +16,16 @@ export function ContentResult({
   const guide = CONTENT_GUIDANCE[content.kind]
   return (
     <div className="flex flex-col gap-4" data-testid="content-result">
-      <div className="flex items-start gap-3 rounded-xl border border-violet/30 bg-violet/10 p-4">
-        <Info className="mt-0.5 size-5 shrink-0 text-violet" />
+      <div className="border-violet/30 bg-violet/10 flex items-start gap-3 rounded-xl border p-4">
+        <Info className="text-violet mt-0.5 size-5 shrink-0" />
         <div>
           <p className="font-medium">{guide.title}: URL analysis not applicable</p>
-          <p className="mt-1 text-sm text-muted-foreground">{guide.body}</p>
+          <p className="text-muted-foreground mt-1 text-sm">{guide.body}</p>
         </div>
       </div>
 
       {"fields" in content && content.fields.length > 0 && (
-        <dl className="grid gap-2 rounded-xl border border-border bg-card/60 p-4 text-sm sm:grid-cols-[auto_1fr]">
+        <dl className="border-border bg-card/60 grid gap-2 rounded-xl border p-4 text-sm sm:grid-cols-[auto_1fr]">
           {content.fields.map((f) => (
             <div key={f.label} className="contents">
               <dt className="text-muted-foreground">{f.label}</dt>
@@ -36,8 +36,10 @@ export function ContentResult({
       )}
 
       <div>
-        <p className="mb-1.5 text-xs tracking-wide text-muted-foreground uppercase">Decoded content</p>
-        <pre className="max-h-48 overflow-auto rounded-xl border border-border bg-black/40 p-3 font-mono text-xs break-all whitespace-pre-wrap">
+        <p className="text-muted-foreground mb-1.5 text-xs tracking-wide uppercase">
+          Decoded content
+        </p>
+        <pre className="border-border max-h-48 overflow-auto rounded-xl border bg-black/40 p-3 font-mono text-xs break-all whitespace-pre-wrap">
           {content.text}
         </pre>
       </div>

@@ -1,5 +1,12 @@
 import { bandLabel } from "./score"
-import type { CheckSummary, Explanation, Finding, ParsedUrl, RedirectResult, RiskBand } from "./types"
+import type {
+  CheckSummary,
+  Explanation,
+  Finding,
+  ParsedUrl,
+  RedirectResult,
+  RiskBand,
+} from "./types"
 
 const LEADS: Record<RiskBand, string> = {
   critical: "This destination shows strong indicators of a malicious or deceptive link.",
@@ -94,17 +101,25 @@ export function buildRecommendations(band: RiskBand, findings: Finding[]): strin
     )
   } else if (band === "moderate") {
     recs.push("Confirm who placed this QR code before trusting it.")
-    recs.push("Before signing in or paying, check that the domain in the address bar is the organization you expect.")
+    recs.push(
+      "Before signing in or paying, check that the domain in the address bar is the organization you expect.",
+    )
   } else {
     recs.push("Still verify the source of the QR code before providing sensitive information.")
-    recs.push("After opening, confirm the domain in the address bar matches the organization you expect.")
+    recs.push(
+      "After opening, confirm the domain in the address bar matches the organization you expect.",
+    )
   }
 
   if (ids.has("brand_impersonation") || ids.has("homograph")) {
-    recs.push("Reach the brand mentioned through its official website or app rather than this link.")
+    recs.push(
+      "Reach the brand mentioned through its official website or app rather than this link.",
+    )
   }
   if (ids.has("shortener") || ids.has("cross_domain_redirect")) {
-    recs.push("Review the resolved destination above. The QR code does not point where it first appears to.")
+    recs.push(
+      "Review the resolved destination above. The QR code does not point where it first appears to.",
+    )
   }
   if (ids.has("executable_download")) {
     recs.push("Do not install software from a scanned link. Use your device's official app store.")
