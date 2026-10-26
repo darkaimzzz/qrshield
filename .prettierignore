@@ -1,0 +1,9 @@
+.next
+node_modules
+ml/.venv
+ml/data
+lib/engine/model.json
+tests/fixtures
+public
+app/shadcn.css
+components/ui

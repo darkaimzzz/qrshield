@@ -1,0 +1,93 @@
+{
+  "trained_at": "2026-10-26T09:13:10+00:00",
+  "dataset": {
+    "name": "PhiUSIIL Phishing URL Dataset",
+    "source": "https://archive.ics.uci.edu/static/public/967/phiusiil+phishing+url+dataset.zip",
+    "citation": "Prasad, A. & Chandra, S. (2024). PhiUSIIL Phishing URL Dataset. UCI Machine Learning Repository. https://doi.org/10.1016/j.cose.2023.103545",
+    "license": "CC BY 4.0",
+    "file": "PhiUSIIL_Phishing_URL_Dataset.csv",
+    "sha256": "0a639fd03aea6308c5b1c10c92aa23c2ce1505447a9137271865cd0badc9a59a",
+    "retrieved": "2026-10-26",
+    "original_rows": 235795,
+    "original_label_counts": {
+      "legitimate (label=1)": 134850,
+      "phishing (label=0)": 100945
+    }
+  },
+  "preprocessing": {
+    "rows_without_parsable_host": 0,
+    "duplicate_rows_removed": 16701,
+    "conflicting_hostnames_removed": 58,
+    "unique_hostnames": 219036,
+    "class_counts": {
+      "phishing": 84244,
+      "legitimate": 134792
+    },
+    "registrable_domain_groups": 175451
+  },
+  "split": {
+    "method": "GroupShuffleSplit by registrable domain (test_size=0.2, seed=42)",
+    "train_hostnames": 171262,
+    "test_hostnames": 47774,
+    "train_class_counts": {
+      "phishing": 63319,
+      "legitimate": 107943
+    },
+    "test_class_counts": {
+      "phishing": 20925,
+      "legitimate": 26849
+    }
+  },
+  "model": {
+    "type": "StandardScaler + LogisticRegression (class_weight=balanced)",
+    "C": 10.0,
+    "cv_roc_auc_by_C": {
+      "0.01": 0.8716,
+      "0.1": 0.8746,
+      "1.0": 0.8751,
+      "10.0": 0.8751
+    },
+    "features": 59
+  },
+  "test": {
+    "threshold": 0.5,
+    "precision": 0.9038,
+    "recall": 0.7675,
+    "f1": 0.8301,
+    "accuracy": 0.8624,
+    "roc_auc": 0.9063,
+    "brier": 0.1073,
+    "confusion_matrix": {
+      "tn": 25139,
+      "fp": 1710,
+      "fn": 4865,
+      "tp": 16060
+    },
+    "support": {
+      "phishing": 20925,
+      "legitimate": 26849
+    }
+  },
+  "train": {
+    "threshold": 0.5,
+    "precision": 0.8635,
+    "recall": 0.6904,
+    "f1": 0.7673,
+    "accuracy": 0.8452,
+    "roc_auc": 0.8755,
+    "brier": 0.1204,
+    "confusion_matrix": {
+      "tn": 101032,
+      "fp": 6911,
+      "fn": 19602,
+      "tp": 43717
+    },
+    "support": {
+      "phishing": 63319,
+      "legitimate": 107943
+    }
+  },
+  "calibrated": false,
+  "sklearn_version": "1.9.1",
+  "python_version": "3.14.6"
+}

@@ -1,0 +1,10 @@
+[project]
+name = "qrshield-ml"
+version = "1.0.0"
+description = "Reproducible training pipeline for the QRShield hostname phishing classifier"
+requires-python = ">=3.12"
+dependencies = [
+  "scikit-learn>=1.7",
+  "pandas>=2.3",
+  "tldextract>=5.3",
+]
