@@ -1,5 +1,7 @@
 # QRShield: Scan Smarter. Stay Safer.
 
+**Live:** https://qrshield-five.vercel.app
+
 QRShield turns a QR code, which normally hides its destination, into an explainable security report, **without opening the destination in your browser**.
 
 Scan with the camera, upload an image or paste a URL. QRShield decodes the code on your device, then its server inspects the link. It checks URL structure, look-alike brands, HTTP redirects (SSRF-hardened), domain age via RDAP, and threat-intelligence lists. The result is a transparent 0–100 risk score with evidence for every point, plus a separate, genuinely trained ML phishing estimate.
