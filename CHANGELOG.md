@@ -4,10 +4,6 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
-### Added
-
-- Project documentation (`docs/`), contribution and security policies, CI workflow, issue and PR templates.
-
 ## [1.0.0] - 2026-10-26
 
 First complete version, deployed at https://qrshieldmdp.vercel.app.
@@ -20,7 +16,8 @@ First complete version, deployed at https://qrshieldmdp.vercel.app.
 - **Machine learning**: hostname logistic-regression classifier trained on the PhiUSIIL dataset with a grouped split (test ROC-AUC 0.906), exported to JSON and run in TypeScript, with a Python parity test.
 - **Explanations**: deterministic summaries and recommendations, plus optional guarded LLM rewording through an OpenAI-compatible API.
 - **App**: streaming analysis progress, a detailed report, PDF export, print stylesheet, local scan history, threat-intelligence education with local analytics, a methodology page, and a demo lab with a QR generator.
-- **Quality**: 93 unit tests and 23 Playwright end-to-end tests (desktop and mobile).
+- **Quality**: 93 unit tests and 23 Playwright end-to-end tests (desktop and mobile), run in GitHub Actions CI.
+- **Project**: documentation (`docs/`), demo recording, contribution and security policies, issue and PR templates, Dependabot.
 
 [Unreleased]: https://github.com/darkaimzzz/qrshield/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/darkaimzzz/qrshield/releases/tag/v1.0.0

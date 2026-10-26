@@ -8,7 +8,7 @@
 
 Every QR code has a destination. QRShield shows you the risk before you go: an explainable security report on any QR code or link, **without opening it**.
 
-[**Live demo →**](https://qrshieldmdp.vercel.app) &nbsp;·&nbsp; [Documentation](docs/README.md) &nbsp;·&nbsp; [How the score works](docs/scoring.md) &nbsp;·&nbsp; [Security design](docs/security-design.md)
+[**Try it live →**](https://qrshieldmdp.vercel.app) &nbsp;·&nbsp; [Watch the demo](docs/demo/qrshield-demo.webm) &nbsp;·&nbsp; [Documentation](docs/README.md) &nbsp;·&nbsp; [How the score works](docs/scoring.md) &nbsp;·&nbsp; [Security design](docs/security-design.md)
 
 [![CI](https://github.com/darkaimzzz/qrshield/actions/workflows/ci.yml/badge.svg)](https://github.com/darkaimzzz/qrshield/actions/workflows/ci.yml)
 ![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs)
@@ -16,7 +16,9 @@ Every QR code has a destination. QRShield shows you the risk before you go: an e
 ![Tests](https://img.shields.io/badge/tests-93%20unit%20%C2%B7%2023%20e2e-10b981)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22d3ee)](LICENSE)
 
-<img src="docs/images/report.png" alt="QRShield security report for a look-alike Microsoft login URL, scored 67 (High Risk)" width="900" />
+<a href="docs/demo/qrshield-demo.webm"><img src="docs/demo/qrshield-demo.gif" alt="Demo: a synthetic look-alike PayPal link is pasted, real checks stream in, and the report scores it 52 (High Risk) with the evidence for each finding" width="900" /></a>
+
+<sub>Recorded from the real app on the live site with synthetic URLs. <a href="docs/demo/qrshield-demo.webm">Watch the full 40-second demo</a>, which also decodes a QR code on-device.</sub>
 
 </div>
 
@@ -48,6 +50,14 @@ QRShield decodes the code on your device, then a hardened server inspects the li
 | 🎓 **Learn**                | Interactive URL anatomy, nine attack explainers that run the real engine, a demo lab with a QR generator                                                           |
 
 <table>
+  <tr>
+    <td width="50%"><img src="docs/images/report.png" alt="Security report for a look-alike Microsoft login URL, scored 67 (High Risk)" /></td>
+    <td width="50%"><img src="docs/images/findings.png" alt="Threat indicators with evidence and score contributions" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>A look-alike Microsoft login link: 67, High Risk</sub></td>
+    <td align="center"><sub>Every finding shows its evidence and points</sub></td>
+  </tr>
   <tr>
     <td width="50%"><img src="docs/images/dashboard.png" alt="Dashboard with scanner" /></td>
     <td width="50%"><img src="docs/images/redirects.png" alt="Redirect chain and RDAP domain intelligence for a real bit.ly link" /></td>

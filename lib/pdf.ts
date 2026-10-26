@@ -9,7 +9,7 @@ function latin1(s: string): string {
     .replace(/[“”]/g, '"')
     .replace(/[‘’]/g, "'")
     .replace(/[→]/g, "->")
-    .replace(/[–—]/g, "-")
+    .replace(/[\u2013\u2014]/g, "-") // en and em dashes
     .replace(/…/g, "...")
     .replace(/[^\x00-\xFF]/g, "?")
 }

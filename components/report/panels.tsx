@@ -216,7 +216,7 @@ export function RedirectPanel({ report }: { report: Report }) {
                 <div className="flex items-center justify-between gap-2">
                   <span className="truncate font-mono text-sm font-medium">{h.hostname}</span>
                   <span className="text-muted-foreground shrink-0 font-mono text-xs">
-                    {h.status ?? "—"}
+                    {h.status ?? "n/a"}
                   </span>
                 </div>
                 <p className="text-muted-foreground mt-1 font-mono text-xs break-all">{h.url}</p>

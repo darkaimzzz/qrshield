@@ -5,7 +5,7 @@ import { rateLimit } from "@/lib/rate-limit"
 export const maxDuration = 60
 
 /**
- * POST /api/analyze — streams NDJSON AnalyzeEvents: one "stage" event each time a real stage
+ * POST /api/analyze: streams NDJSON AnalyzeEvents: one "stage" event each time a real stage
  * starts or finishes, then a final "report" (or "error") event.
  */
 export async function POST(request: Request) {

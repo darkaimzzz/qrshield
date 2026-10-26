@@ -1,6 +1,6 @@
 /**
  * Hostname feature extraction for the ML classifier.
- * MUST stay identical to ml/features.py — tests/unit/ml-parity.test.ts enforces this against
+ * MUST stay identical to ml/features.py. tests/unit/ml-parity.test.ts enforces this against
  * vectors exported by the Python pipeline.
  *
  * Only the hostname is used (leading "www." stripped). The training data's legitimate URLs are

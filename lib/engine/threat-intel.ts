@@ -3,7 +3,7 @@ import type { ProviderResult, ThreatIntelResult } from "./types"
 
 /**
  * Threat-intelligence providers. A provider that is not configured or cannot be reached reports
- * "not_checked" / "error" — never "no_match". "no_match" only means "this list does not contain
+ * "not_checked" / "error", never "no_match". "no_match" only means "this list does not contain
  * the URL right now", which is not evidence that the URL is safe.
  */
 export interface ThreatProvider {

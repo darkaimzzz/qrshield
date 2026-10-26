@@ -23,7 +23,7 @@ export function bandLabel(band: RiskBand): string {
 /**
  * Deterministic score: sum of finding weights, where within each correlation group the strongest
  * finding counts fully and the rest are damped, capped at 100. Checks that did not run contribute
- * nothing — missing evidence is reported separately (Report.checks), never scored as "passed".
+ * nothing: missing evidence is reported separately (Report.checks), never scored as "passed".
  * Returns findings with their actual `contribution` filled in, sorted by contribution.
  */
 export function scoreFindings(findings: Finding[]): {
