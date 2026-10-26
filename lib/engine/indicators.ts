@@ -85,6 +85,13 @@ export const INDICATORS = {
     category: "structure",
     group: "deceptive_structure",
   },
+  lure_domain_name: {
+    title: "Domain name built from lure words",
+    weight: 10,
+    severity: "medium",
+    category: "social_engineering",
+    group: "deceptive_structure",
+  },
   hyphenated_host: {
     title: "Heavily hyphenated hostname",
     weight: 5,

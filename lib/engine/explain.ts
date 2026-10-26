@@ -32,6 +32,7 @@ const PHRASES: Record<string, string> = {
   credentials_in_url: "misleading “@” syntax that disguises the real host",
   domain_in_subdomain: "another domain name embedded in a misleading position",
   excessive_subdomains: "an unusually deep chain of subdomains",
+  lure_domain_name: "a domain name made of generic account or security words",
   hyphenated_host: "a heavily hyphenated hostname",
   suspicious_keywords: "account-verification or urgency wording",
   shortener: "a URL shortener that hides the real destination",

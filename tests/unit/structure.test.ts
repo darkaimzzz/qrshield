@@ -24,6 +24,13 @@ describe("structural analysis", () => {
     expect(ids("https://forum.example.org/login")).toEqual([])
   })
 
+  it("flags domains assembled from lure words, but not real brand names", () => {
+    expect(ids("https://secure-account-verify.example/")).toContain("lure_domain_name")
+    expect(ids("https://secure-shop.example/")).not.toContain("lure_domain_name")
+    expect(ids("https://login.microsoftonline.com.auth.example/")).toContain("brand_impersonation")
+    expect(ids("https://login.microsoftonline.com/common/oauth2")).toEqual([])
+  })
+
   it("flags keywords when corroborated by other signals", () => {
     const r = ids("http://secure-account-update.example/verify/login")
     expect(r).toContain("suspicious_keywords")

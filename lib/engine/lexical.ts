@@ -346,6 +346,20 @@ export function lexicalFindings(
     )
   }
 
+  // A registrable name assembled from two or more lure words ("secure-account-verify") reads as
+  // an official service but names no actual organization.
+  const regParts = (parsed.registrableDomain?.split(".")[0] ?? "").split("-")
+  const lureParts = regParts.filter((w) => (SUSPICIOUS_KEYWORDS as readonly string[]).includes(w))
+  if (!opts.brandOwned && regParts.length >= 2 && lureParts.length >= 2) {
+    out.push(
+      makeFinding(
+        "lure_domain_name",
+        "The registered domain name itself is made of generic security or account words rather than an organization's name. Real banks and services register their brand, not phrases like “secure-account-verify”.",
+        [`Registrable domain: ${parsed.registrableDomain}`, `Lure words: ${lureParts.join(", ")}`],
+      ),
+    )
+  }
+
   if (f.hostnameHyphens >= 3) {
     out.push(
       makeFinding(

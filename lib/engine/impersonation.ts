@@ -24,7 +24,15 @@ export const BRANDS: Brand[] = [
   },
   {
     name: "Microsoft",
-    tokens: ["microsoft", "office365", "outlook", "onedrive", "sharepoint", "hotmail"],
+    tokens: [
+      "microsoft",
+      "microsoftonline",
+      "office365",
+      "outlook",
+      "onedrive",
+      "sharepoint",
+      "hotmail",
+    ],
     domains: [
       "microsoft.com",
       "live.com",
