@@ -1,0 +1,26 @@
+name: Detection accuracy
+description: A URL pattern that was missed (false negative) or wrongly flagged (false positive)
+labels: [detection]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options:
+        - False positive (legitimate URL flagged)
+        - False negative (risky URL not flagged)
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: URL or pattern
+      description: Please defang live malicious URLs (e.g. hxxps://evil[.]example/login).
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What QRShield reported vs. what you expected
+    validations:
+      required: true

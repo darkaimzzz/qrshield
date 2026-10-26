@@ -1,6 +1,6 @@
 {
   "name": "qrshield",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -58,5 +58,28 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^5.0.5"
-  }
+  },
+  "description": "Explainable QR code and URL security analysis: phishing, impersonation, redirects and domain age, with an SSRF-safe server and a trained ML model.",
+  "license": "MIT",
+  "homepage": "https://qrshieldmdp.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darkaimzzz/qrshield.git"
+  },
+  "bugs": {
+    "url": "https://github.com/darkaimzzz/qrshield/issues"
+  },
+  "author": "darkaimzzz",
+  "engines": {
+    "node": ">=20.9"
+  },
+  "keywords": [
+    "qr-code",
+    "phishing",
+    "security",
+    "quishing",
+    "url-analysis",
+    "nextjs",
+    "machine-learning"
+  ]
 }

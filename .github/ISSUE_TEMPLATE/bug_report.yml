@@ -1,0 +1,31 @@
+name: Bug report
+description: Something in QRShield doesn't work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open /demo
+        2. Click "Analyze" on case 3
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Browser / device
+      placeholder: e.g. Chrome 140 on Android 15, or self-hosted on Node 24
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output or screenshots
+      description: Please remove any personal data.

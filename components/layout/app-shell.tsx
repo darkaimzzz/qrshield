@@ -45,7 +45,7 @@ function StatusPill({ status }: { status: ServerStatus | null }) {
     >
       <span className={cn("size-1.5 rounded-full", tone)} />
       <span className="hidden sm:inline">{status.network ? "Live checks" : "Offline mode"}</span>
-      <span className="text-border">|</span>
+      <span className="text-border hidden sm:inline">|</span>
       <span>
         {sources} intel source{sources === 1 ? "" : "s"}
       </span>
