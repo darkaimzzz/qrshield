@@ -1,6 +1,6 @@
 # QRShield: Scan Smarter. Stay Safer.
 
-**Live:** https://qrshield-five.vercel.app
+**Live:** https://qrshieldmdp.vercel.app
 
 QRShield turns a QR code, which normally hides its destination, into an explainable security report, **without opening the destination in your browser**.
 
