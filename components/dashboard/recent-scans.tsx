@@ -14,7 +14,10 @@ export function RecentScans() {
   return (
     <section aria-labelledby="recent-heading" className="surface p-5">
       <div className="mb-4 flex items-center justify-between">
-        <h2 id="recent-heading" className="flex items-center gap-2 font-semibold">
+        <h2
+          id="recent-heading"
+          className="flex items-center gap-2 text-sm font-bold tracking-[0.18em] uppercase"
+        >
           <History className="text-primary size-4" /> Recent scans
         </h2>
         {history.length > 0 && (

@@ -48,9 +48,13 @@ export function Panel({
       className={cn("surface print-break min-w-0 p-5", className)}
       aria-label={title}
     >
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="flex items-center gap-2 font-semibold">
-          <Icon className="text-primary size-4" /> {title}
+      <div className="border-border -mx-5 -mt-5 mb-4 flex items-center justify-between gap-3 border-b border-dashed px-5 py-2.5">
+        <h2 className="flex items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase">
+          <Icon className="text-primary size-3.5" />
+          <span className="text-primary" aria-hidden="true">
+            {">"}
+          </span>
+          {title}
         </h2>
         {aside}
       </div>
@@ -69,7 +73,7 @@ function Row({
   mono?: boolean
 }) {
   return (
-    <div className="border-border/60 grid grid-cols-[minmax(7rem,38%)_1fr] gap-3 border-b py-2 text-sm last:border-0">
+    <div className="border-border/60 grid grid-cols-[minmax(7rem,38%)_1fr] gap-3 border-b border-dashed py-2 text-[13px] last:border-0">
       <dt className="text-muted-foreground">{label}</dt>
       <dd className={cn("min-w-0 break-all", mono && "font-mono text-[13px]")}>{children}</dd>
     </div>
@@ -86,10 +90,10 @@ export function SummaryPanel({ report }: { report: Report }) {
       title="Executive security summary"
       icon={ShieldAlert}
       aside={
-        <span className="border-border text-muted-foreground inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px]">
+        <span className="border-border text-muted-foreground inline-flex items-center gap-1 border px-2 py-0.5 text-[10px] tracking-wider uppercase">
           {report.explanation.generatedBy === "llm" ? (
             <>
-              <Sparkles className="text-violet size-3" /> AI-generated wording (
+              <Sparkles className="text-signal size-3" /> AI-generated wording (
               {report.explanation.model})
             </>
           ) : (
@@ -220,7 +224,7 @@ export function RedirectPanel({ report }: { report: Report }) {
                   </span>
                 </div>
                 <p className="text-muted-foreground mt-1 font-mono text-xs break-all">{h.url}</p>
-                {h.error && <p className="mt-1 text-xs text-red-300">{h.error}</p>}
+                {h.error && <p className="text-risk-critical mt-1 text-xs">{h.error}</p>}
               </div>
             </li>
           ))}
@@ -283,7 +287,7 @@ export function FindingCard({
       >
         <span
           className={cn(
-            "shrink-0 rounded-md border px-1.5 py-0.5 text-[11px] font-medium capitalize",
+            "shrink-0 border px-1.5 py-0.5 text-[10px] font-bold tracking-wider uppercase",
             SEVERITY_STYLE[finding.severity],
           )}
         >
@@ -436,17 +440,15 @@ export function MlPanel({ report }: { report: Report }) {
           <div>
             <div className="mb-1.5 flex items-baseline justify-between">
               <span className="text-muted-foreground text-sm">Estimated phishing probability</span>
-              <span className="font-mono text-2xl font-semibold tabular-nums">
+              <span className="text-signal text-2xl font-bold tabular-nums">
                 {(ml.probability * 100).toFixed(1)}%
               </span>
             </div>
-            <div className="bg-muted h-2 overflow-hidden rounded-full">
-              <motion.div
-                className="from-violet to-primary h-full rounded-full bg-gradient-to-r"
-                initial={{ width: 0 }}
-                animate={{ width: `${ml.probability * 100}%` }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              />
+            <div className="overflow-hidden text-xs whitespace-pre" aria-hidden="true">
+              <span className="text-signal">{"█".repeat(Math.round(ml.probability * 30))}</span>
+              <span className="text-primary/20">
+                {"░".repeat(30 - Math.round(ml.probability * 30))}
+              </span>
             </div>
           </div>
           {ml.topFactors.length > 0 && (
@@ -461,8 +463,8 @@ export function MlPanel({ report }: { report: Report }) {
                     className={cn(
                       "rounded-md border px-1.5 py-0.5 font-mono text-[11px]",
                       f.impact > 0
-                        ? "border-risk-high/30 text-orange-300"
-                        : "border-risk-low/30 text-emerald-300",
+                        ? "border-risk-high/30 text-risk-high"
+                        : "border-risk-low/30 text-primary",
                     )}
                     title={f.impact > 0 ? "Pushed toward phishing" : "Pushed toward legitimate"}
                   >
@@ -472,8 +474,8 @@ export function MlPanel({ report }: { report: Report }) {
               </ul>
             </div>
           )}
-          <p className="border-violet/25 bg-violet/5 text-muted-foreground flex gap-2 rounded-lg border p-3 text-xs">
-            <Info className="text-violet mt-px size-3.5 shrink-0" />
+          <p className="border-signal/25 bg-signal/5 text-muted-foreground flex gap-2 rounded-lg border p-3 text-xs">
+            <Info className="text-signal mt-px size-3.5 shrink-0" />
             <span>
               {ml.detail} Model: {ml.modelName}. A statistical prediction from the hostname that may
               be wrong. See the methodology page for its measured accuracy.
@@ -491,7 +493,9 @@ export function RecommendationsPanel({ report }: { report: Report }) {
       <ul className="flex flex-col gap-2 text-sm">
         {report.explanation.recommendations.map((r) => (
           <li key={r} className="flex gap-2">
-            <span className="bg-primary mt-1.5 size-1.5 shrink-0 rounded-full" />
+            <span className="text-primary shrink-0" aria-hidden="true">
+              {">"}
+            </span>
             <span>{r}</span>
           </li>
         ))}
@@ -517,7 +521,10 @@ export function LimitationsPanel({ report }: { report: Report }) {
       <ul className="text-muted-foreground flex flex-col gap-1.5 text-xs">
         {report.limitations.map((l) => (
           <li key={l} className="flex gap-2">
-            <span className="bg-muted-foreground mt-1.5 size-1 shrink-0 rounded-full" /> {l}
+            <span className="shrink-0" aria-hidden="true">
+              {"--"}
+            </span>{" "}
+            {l}
           </li>
         ))}
       </ul>
@@ -527,8 +534,8 @@ export function LimitationsPanel({ report }: { report: Report }) {
 
 export function StatusChip({ status }: { status: string }) {
   const map: Record<string, string> = {
-    done: "border-risk-low/30 text-emerald-300",
-    failed: "border-risk-critical/30 text-red-300",
+    done: "border-risk-low/30 text-primary",
+    failed: "border-risk-critical/30 text-risk-critical",
     skipped: "border-border text-muted-foreground",
     not_configured: "border-border text-muted-foreground",
   }
@@ -539,7 +546,12 @@ export function StatusChip({ status }: { status: string }) {
     not_configured: "Not configured",
   }
   return (
-    <span className={cn("shrink-0 rounded-full border px-2 py-0.5 text-[11px]", map[status])}>
+    <span
+      className={cn(
+        "shrink-0 border px-1.5 py-0.5 text-[10px] tracking-wider uppercase",
+        map[status],
+      )}
+    >
       {label[status] ?? status}
     </span>
   )

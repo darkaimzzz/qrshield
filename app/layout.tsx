@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { JetBrains_Mono } from "next/font/google"
 import { AppShell } from "@/components/layout/app-shell"
+import { MatrixRain } from "@/components/layout/matrix-rain"
 import { Providers } from "@/components/layout/providers"
 import "./globals.css"
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] })
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] })
+const term = JetBrains_Mono({ variable: "--font-term", subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: { default: "QRShield: Scan Smarter. Stay Safer.", template: "%s · QRShield" },
@@ -15,14 +15,15 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#060a13",
+  themeColor: "#000502",
   colorScheme: "dark",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" className={`${term.variable} antialiased`}>
       <body className="min-h-dvh">
+        <MatrixRain />
         <Providers>
           <AppShell>{children}</AppShell>
         </Providers>

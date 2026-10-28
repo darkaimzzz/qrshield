@@ -56,7 +56,7 @@ export function UrlInput({
       </div>
       <p id="url-help" className="min-h-5 text-xs" aria-live="polite">
         {error ? (
-          <span role="alert" className="text-red-300">
+          <span role="alert" className="text-risk-critical">
             {error}
           </span>
         ) : assumed ? (

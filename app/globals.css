@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-geist-sans);
+  --font-sans: var(--font-term);
+  --font-mono: var(--font-term);
+  --font-heading: var(--font-term);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -50,48 +50,50 @@
 
 :root {
   color-scheme: dark;
-  --background: #060a13;
-  --foreground: #e6edf7;
-  --card: #0b1220;
-  --card-foreground: #e6edf7;
-  --popover: #0d1526;
-  --popover-foreground: #e6edf7;
-  --primary: #22d3ee;
-  --primary-foreground: #03141a;
-  --secondary: #141d30;
-  --secondary-foreground: #d5deeb;
-  --muted: #111a2b;
-  --muted-foreground: #8b98ad;
-  --accent: #16213a;
-  --accent-foreground: #e6edf7;
-  --destructive: #ef4444;
-  --border: rgb(148 163 184 / 0.12);
-  --input: rgb(148 163 184 / 0.18);
-  --ring: #22d3ee;
-  --chart-1: #22d3ee;
-  --chart-2: #8b5cf6;
-  --chart-3: #10b981;
-  --chart-4: #f59e0b;
-  --chart-5: #ef4444;
-  --radius: 0.75rem;
-  --sidebar: #070c17;
-  --sidebar-foreground: #c7d2e2;
-  --sidebar-primary: #22d3ee;
-  --sidebar-primary-foreground: #03141a;
-  --sidebar-accent: #111a2b;
-  --sidebar-accent-foreground: #e6edf7;
-  --sidebar-border: rgb(148 163 184 / 0.1);
-  --sidebar-ring: #22d3ee;
+  /* Phosphor terminal palette: near-black with a green cast, one bright signal green. */
+  --background: #000502;
+  --foreground: #c4f5d0;
+  --card: #010a05;
+  --card-foreground: #c4f5d0;
+  --popover: #020f07;
+  --popover-foreground: #c4f5d0;
+  --primary: #00ff66;
+  --primary-foreground: #001a09;
+  --secondary: #04170b;
+  --secondary-foreground: #b5f0c4;
+  --muted: #03120a;
+  --muted-foreground: #5c9a6c;
+  --accent: #062414;
+  --accent-foreground: #d8ffe2;
+  --destructive: #ff2e4d;
+  --border: rgb(0 255 102 / 0.2);
+  --input: rgb(0 255 102 / 0.32);
+  --ring: #00ff66;
+  --chart-1: #00ff66;
+  --chart-2: #8affc1;
+  --chart-3: #ffc400;
+  --chart-4: #ff7a1a;
+  --chart-5: #ff2e4d;
+  --radius: 0.125rem;
+  --sidebar: #000804;
+  --sidebar-foreground: #9fd9ae;
+  --sidebar-primary: #00ff66;
+  --sidebar-primary-foreground: #001a09;
+  --sidebar-accent: #04170b;
+  --sidebar-accent-foreground: #d8ffe2;
+  --sidebar-border: rgb(0 255 102 / 0.16);
+  --sidebar-ring: #00ff66;
 
-  --violet: #8b5cf6;
-  --risk-low: #10b981;
-  --risk-moderate: #f59e0b;
-  --risk-high: #f97316;
-  --risk-critical: #ef4444;
+  /* Secondary phosphor (pale mint) and terminal-alert risk colors. */
+  --signal: #8affc1;
+  --risk-low: #00ff66;
+  --risk-moderate: #ffc400;
+  --risk-high: #ff7a1a;
+  --risk-critical: #ff2e4d;
 }
 
 @theme inline {
-  --color-violet: var(--violet);
+  --color-signal: var(--signal);
   --color-risk-low: var(--risk-low);
   --color-risk-moderate: var(--risk-moderate);
   --color-risk-high: var(--risk-high);
@@ -113,33 +115,66 @@
   }
 }
 @layer base {
-  body {
-    background-image:
-      radial-gradient(60rem 40rem at 85% -10%, rgb(34 211 238 / 0.07), transparent 60%),
-      radial-gradient(50rem 35rem at -10% 10%, rgb(139 92 246 / 0.07), transparent 60%);
-    background-attachment: fixed;
+  /* CRT scanlines over everything; purely decorative. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, transparent 0 2px, rgb(0 0 0 / 0.22) 2px 3px);
+  }
+  /* Page titles read like shell prompts; the "> " is hidden from assistive tech. */
+  main h1:not(.no-prompt) {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+  }
+  main h2 {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  main h1:not(.no-prompt)::before {
+    content: "> " / "";
+    color: var(--primary);
   }
   ::selection {
-    background: rgb(34 211 238 / 0.3);
+    background: #00ff66;
+    color: #001a09;
   }
 }
 
+/* Terminal panel: flat black, hairline green border, bright corner brackets. */
 @utility surface {
-  background: linear-gradient(180deg, rgb(15 23 42 / 0.72), rgb(11 18 32 / 0.72));
+  --tick: rgb(0 255 102 / 0.75);
+  background-color: rgb(1 10 5 / 0.88);
+  background-image:
+    linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+    linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+    linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick)),
+    linear-gradient(var(--tick), var(--tick)), linear-gradient(var(--tick), var(--tick));
+  background-repeat: no-repeat;
+  background-size: 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px;
+  background-position:
+    left top, left top, right top, right top,
+    left bottom, left bottom, right bottom, right bottom;
   border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 1px 0 0 rgb(255 255 255 / 0.03) inset, 0 20px 40px -24px rgb(0 0 0 / 0.6);
+  border-radius: var(--radius-sm);
 }
 
-@utility glow-cyan {
-  box-shadow: 0 0 0 1px rgb(34 211 238 / 0.35), 0 0 32px -6px rgb(34 211 238 / 0.45);
+@utility glow {
+  box-shadow: 0 0 0 1px rgb(0 255 102 / 0.55), 0 0 22px -4px rgb(0 255 102 / 0.55);
+}
+
+@utility text-glow {
+  text-shadow: 0 0 6px rgb(0 255 102 / 0.55), 0 0 18px rgb(0 255 102 / 0.25);
 }
 
 @utility grid-bg {
   background-image:
-    linear-gradient(rgb(148 163 184 / 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(148 163 184 / 0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(rgb(0 255 102 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0 255 102 / 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 @keyframes scanline {
@@ -147,6 +182,15 @@
   10% { opacity: 1; }
   90% { opacity: 1; }
   100% { top: 100%; opacity: 0; }
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@utility cursor-blink {
+  animation: blink 1.05s steps(1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -162,8 +206,9 @@
   @page { margin: 14mm; }
   html, body { background: #fff !important; color: #000 !important; }
   body { background-image: none !important; }
+  body::after, canvas { display: none !important; }
   .no-print { display: none !important; }
   .surface { background: #fff !important; box-shadow: none !important; border-color: #ccc !important; }
   .print-break { break-inside: avoid; }
-  * { color: #000 !important; }
+  * { color: #000 !important; text-shadow: none !important; }
 }

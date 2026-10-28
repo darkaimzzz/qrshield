@@ -158,7 +158,7 @@ export function DemoClient() {
             code. The decoded link is analyzed, never opened.
           </p>
         </div>
-        <div className="mx-auto flex size-64 items-center justify-center rounded-2xl bg-white p-3 shadow-[0_0_40px_-10px_rgb(34_211_238/0.5)]">
+        <div className="glow mx-auto flex size-64 items-center justify-center rounded-2xl bg-white p-3">
           {dataUrl ? (
             // eslint-disable-next-line @next/next/no-img-element -- generated data URL
             <img
@@ -168,7 +168,7 @@ export function DemoClient() {
               data-testid="generated-qr"
             />
           ) : (
-            <span className="text-sm text-slate-500">Enter content</span>
+            <span className="text-sm text-neutral-600">Enter content</span>
           )}
         </div>
       </section>

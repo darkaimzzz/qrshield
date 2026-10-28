@@ -9,37 +9,37 @@ export const BAND_STYLE: Record<
     text: "text-risk-low",
     bg: "bg-risk-low/10",
     border: "border-risk-low/30",
-    hex: "#10b981",
+    hex: "#00ff66",
   },
   moderate: {
     label: "Moderate Risk",
     text: "text-risk-moderate",
     bg: "bg-risk-moderate/10",
     border: "border-risk-moderate/30",
-    hex: "#f59e0b",
+    hex: "#ffc400",
   },
   high: {
     label: "High Risk",
     text: "text-risk-high",
     bg: "bg-risk-high/10",
     border: "border-risk-high/30",
-    hex: "#f97316",
+    hex: "#ff7a1a",
   },
   critical: {
     label: "Critical Risk",
     text: "text-risk-critical",
     bg: "bg-risk-critical/10",
     border: "border-risk-critical/30",
-    hex: "#ef4444",
+    hex: "#ff2e4d",
   },
 }
 
 export const SEVERITY_STYLE: Record<Severity, string> = {
-  info: "border-border bg-muted text-muted-foreground",
-  low: "border-sky-400/30 bg-sky-400/10 text-sky-300",
-  medium: "border-risk-moderate/30 bg-risk-moderate/10 text-amber-300",
-  high: "border-risk-high/30 bg-risk-high/10 text-orange-300",
-  critical: "border-risk-critical/30 bg-risk-critical/10 text-red-300",
+  info: "border-border text-muted-foreground",
+  low: "border-signal/40 text-signal",
+  medium: "border-risk-moderate/50 text-risk-moderate",
+  high: "border-risk-high/50 text-risk-high",
+  critical: "border-risk-critical/60 bg-risk-critical/10 text-risk-critical",
 }
 
 export const SOURCE_LABEL: Record<InputSource, string> = {

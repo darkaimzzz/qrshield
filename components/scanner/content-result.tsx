@@ -16,8 +16,8 @@ export function ContentResult({
   const guide = CONTENT_GUIDANCE[content.kind]
   return (
     <div className="flex flex-col gap-4" data-testid="content-result">
-      <div className="border-violet/30 bg-violet/10 flex items-start gap-3 rounded-xl border p-4">
-        <Info className="text-violet mt-0.5 size-5 shrink-0" />
+      <div className="border-signal/30 bg-signal/10 flex items-start gap-3 rounded-xl border p-4">
+        <Info className="text-signal mt-0.5 size-5 shrink-0" />
         <div>
           <p className="font-medium">{guide.title}: URL analysis not applicable</p>
           <p className="text-muted-foreground mt-1 text-sm">{guide.body}</p>

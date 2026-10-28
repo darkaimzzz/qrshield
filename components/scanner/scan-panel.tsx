@@ -56,7 +56,10 @@ export function ScanPanel() {
     <section id="scan" aria-labelledby="scan-heading" className="surface scroll-mt-24 p-4 sm:p-6">
       <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
         <div>
-          <h2 id="scan-heading" className="text-lg font-semibold tracking-tight">
+          <h2 id="scan-heading" className="text-sm font-bold tracking-[0.18em] uppercase">
+            <span className="text-primary" aria-hidden="true">
+              {"// "}
+            </span>
             Scan &amp; analyze
           </h2>
           <p className="text-muted-foreground text-sm">

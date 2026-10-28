@@ -115,7 +115,7 @@ export function UploadScan({ onDecoded }: { onDecoded: (text: string) => void })
       {status.kind === "error" && (
         <p
           role="alert"
-          className="border-risk-critical/30 bg-risk-critical/10 rounded-lg border px-3 py-2 text-sm text-red-200"
+          className="border-risk-critical/30 bg-risk-critical/10 text-risk-critical rounded-lg border px-3 py-2 text-sm"
         >
           {status.message}
         </p>

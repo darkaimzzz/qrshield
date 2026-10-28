@@ -110,7 +110,7 @@ function Result({ example }: { example: string }) {
     )
   }
   const p = parseUrl(example)
-  if (!p.ok) return <p className="mt-3 text-sm text-red-300">{p.error}</p>
+  if (!p.ok) return <p className="text-risk-critical mt-3 text-sm">{p.error}</p>
   const { findings, score } = scoreFindings(analyzeStructure(p.url).findings)
   return (
     <div
@@ -160,7 +160,7 @@ export function AttackLibrary() {
             <ul className="text-muted-foreground mt-3 space-y-1 text-xs">
               {a.signs.map((s) => (
                 <li key={s} className="flex gap-2">
-                  <span className="bg-violet mt-1.5 size-1 shrink-0 rounded-full" /> {s}
+                  <span className="bg-signal mt-1.5 size-1 shrink-0 rounded-full" /> {s}
                 </li>
               ))}
             </ul>

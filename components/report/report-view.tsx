@@ -67,17 +67,21 @@ export function ReportView({ report }: { report: Report }) {
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className={cn("surface relative overflow-hidden p-5 sm:p-7", band.border)}
       >
-        <div
-          className="absolute -top-28 -left-28 size-72 rounded-full blur-3xl"
-          style={{ background: `${band.hex}22` }}
+        <p
+          className="text-muted-foreground border-border -mx-5 -mt-5 mb-5 flex flex-wrap justify-between gap-2 border-b border-dashed px-5 py-2.5 text-[10px] tracking-[0.2em] uppercase sm:-mx-7 sm:-mt-7 sm:px-7"
           aria-hidden="true"
-        />
+        >
+          <span>
+            <span className="text-primary">[ OK ]</span> analysis complete
+          </span>
+          <span>id:{report.id.slice(0, 8)}</span>
+        </p>
         <div className="relative flex flex-col items-center gap-6 md:flex-row md:items-center">
           <RiskGauge score={report.score} band={report.band} />
           <div className="min-w-0 flex-1 text-center md:text-left">
             <span
               className={cn(
-                "inline-flex rounded-full border px-3 py-1 text-sm font-medium",
+                "inline-flex border px-3 py-1 text-xs font-bold tracking-[0.2em] uppercase",
                 band.text,
                 band.bg,
                 band.border,
@@ -86,7 +90,7 @@ export function ReportView({ report }: { report: Report }) {
             >
               {band.label}
             </span>
-            <h1 className="mt-3 font-mono text-xl font-semibold break-all sm:text-2xl">
+            <h1 className="no-prompt text-foreground mt-3 text-xl font-bold break-all sm:text-2xl">
               {report.parsed.hostname}
             </h1>
             {finalHost && finalHost !== report.parsed.hostname && (

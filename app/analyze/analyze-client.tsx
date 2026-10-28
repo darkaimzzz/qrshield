@@ -133,7 +133,7 @@ function AnalysisRun({
                 role="alert"
                 className="border-risk-critical/30 bg-risk-critical/10 mt-2 flex flex-col gap-3 rounded-xl border p-4 text-sm"
               >
-                <span className="flex items-center gap-2 font-medium text-red-200">
+                <span className="text-risk-critical flex items-center gap-2 font-medium">
                   <AlertTriangle className="size-4" /> {error}
                 </span>
                 <span className="flex flex-wrap gap-2">

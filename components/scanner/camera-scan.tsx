@@ -123,7 +123,7 @@ export function CameraScan({
           ))}
           {state === "scanning" && (
             <span
-              className="via-primary absolute inset-x-2 top-0 h-0.5 bg-gradient-to-r from-transparent to-transparent shadow-[0_0_12px_2px_rgb(34_211_238/0.6)]"
+              className="bg-primary absolute inset-x-2 top-0 h-0.5 shadow-[0_0_10px_2px_rgb(0_255_102/0.7)]"
               style={{ animation: "scanline 2.2s ease-in-out infinite" }}
             />
           )}

@@ -17,9 +17,9 @@ import type { RiskBand } from "@/lib/engine/types"
 import { useHistory, useHydrated } from "@/lib/history"
 import { BAND_STYLE, CATEGORY_LABEL } from "@/lib/risk-ui"
 
-const GRID = "rgb(148 163 184 / 0.12)"
-const TICK = { fill: "#8b98ad", fontSize: 12 }
-const PRIMARY = "#22d3ee"
+const GRID = "rgb(0 255 102 / 0.1)"
+const TICK = { fill: "#5c9a6c", fontSize: 11 }
+const PRIMARY = "#00ff66"
 
 function ChartCard({
   title,
@@ -150,12 +150,12 @@ export function LocalAnalytics() {
                 <CartesianGrid vertical={false} stroke={GRID} />
                 <XAxis dataKey="name" tick={TICK} axisLine={false} tickLine={false} />
                 <YAxis allowDecimals={false} tick={TICK} axisLine={false} tickLine={false} />
-                <Tooltip content={<TooltipBox />} cursor={{ fill: "rgb(148 163 184 / 0.06)" }} />
+                <Tooltip content={<TooltipBox />} cursor={{ fill: "rgb(0 255 102 / 0.06)" }} />
                 <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={28}>
                   {bands.map((b) => (
                     <Cell key={b.band} fill={BAND_STYLE[b.band].hex} />
                   ))}
-                  <LabelList dataKey="count" position="top" fill="#c7d2e2" fontSize={12} />
+                  <LabelList dataKey="count" position="top" fill="#c4f5d0" fontSize={12} />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -193,9 +193,9 @@ export function LocalAnalytics() {
                     axisLine={false}
                     tickLine={false}
                   />
-                  <Tooltip content={<TooltipBox />} cursor={{ fill: "rgb(148 163 184 / 0.06)" }} />
+                  <Tooltip content={<TooltipBox />} cursor={{ fill: "rgb(0 255 102 / 0.06)" }} />
                   <Bar dataKey="count" fill={PRIMARY} radius={[0, 4, 4, 0]} maxBarSize={18}>
-                    <LabelList dataKey="count" position="right" fill="#c7d2e2" fontSize={12} />
+                    <LabelList dataKey="count" position="right" fill="#c4f5d0" fontSize={12} />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
@@ -212,7 +212,7 @@ export function LocalAnalytics() {
                 <CartesianGrid vertical={false} stroke={GRID} />
                 <XAxis dataKey="name" tick={TICK} axisLine={false} tickLine={false} interval={3} />
                 <YAxis allowDecimals={false} tick={TICK} axisLine={false} tickLine={false} />
-                <Tooltip content={<TooltipBox />} cursor={{ fill: "rgb(148 163 184 / 0.06)" }} />
+                <Tooltip content={<TooltipBox />} cursor={{ fill: "rgb(0 255 102 / 0.06)" }} />
                 <Bar dataKey="count" fill={PRIMARY} radius={[4, 4, 0, 0]} maxBarSize={16} />
               </BarChart>
             </ResponsiveContainer>

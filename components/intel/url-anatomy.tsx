@@ -8,43 +8,43 @@ const PARTS = [
   {
     key: "protocol",
     label: "Protocol",
-    cls: "border-sky-400/40 bg-sky-400/10 text-sky-200",
+    cls: "border-muted-foreground/50 text-muted-foreground",
     note: "How the browser connects. https encrypts the connection, but phishing sites use it too.",
   },
   {
     key: "subdomain",
     label: "Subdomain",
-    cls: "border-violet/40 bg-violet/10 text-violet-200",
+    cls: "border-risk-moderate/50 text-risk-moderate",
     note: "Chosen freely by whoever owns the domain, so it can contain any brand name.",
   },
   {
     key: "domain",
     label: "Registrable domain",
-    cls: "border-primary/50 bg-primary/15 text-cyan-100",
+    cls: "border-primary bg-primary/15 text-primary text-glow",
     note: "The part someone actually registered. This decides who controls the site.",
   },
   {
     key: "port",
     label: "Port",
-    cls: "border-pink-400/40 bg-pink-400/10 text-pink-200",
+    cls: "border-risk-critical/50 text-risk-critical",
     note: "Network port. Unusual on public websites.",
   },
   {
     key: "path",
     label: "Path",
-    cls: "border-amber-400/40 bg-amber-400/10 text-amber-200",
+    cls: "border-signal/40 text-signal",
     note: "Which page on the site. Can contain anything, including other domain names.",
   },
   {
     key: "query",
     label: "Query",
-    cls: "border-emerald-400/40 bg-emerald-400/10 text-emerald-200",
+    cls: "border-risk-high/50 text-risk-high",
     note: "Parameters for the page. Sometimes hides a second URL to redirect to.",
   },
   {
     key: "fragment",
     label: "Fragment",
-    cls: "border-slate-400/40 bg-slate-400/10 text-slate-200",
+    cls: "border-border text-muted-foreground/70",
     note: "Never sent to the server; used only by the page itself.",
   },
 ] as const
@@ -121,7 +121,7 @@ export function UrlAnatomy() {
           )}
         </>
       ) : (
-        <p className="mt-4 text-sm text-red-300" role="alert">
+        <p className="text-risk-critical mt-4 text-sm" role="alert">
           {r.error}
         </p>
       )}
