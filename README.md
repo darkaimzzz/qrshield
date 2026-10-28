@@ -18,7 +18,7 @@ Every QR code has a destination. QRShield shows you the risk before you go: an e
 
 <a href="docs/demo/qrshield-demo.webm"><img src="docs/demo/qrshield-demo.gif" alt="Demo: a synthetic look-alike PayPal link is pasted, real checks stream in, and the report scores it 52 (High Risk) with the evidence for each finding" width="900" /></a>
 
-<sub>Recorded from the real app on the live site with synthetic URLs. <a href="docs/demo/qrshield-demo.webm">Watch the full 40-second demo</a>, which also decodes a QR code on-device.</sub>
+<sub>Recorded from the real app on the live site with synthetic URLs. <a href="docs/demo/qrshield-demo.webm">Watch the full 1-minute demo</a>, which also decodes a QR code on-device.</sub>
 
 </div>
 
