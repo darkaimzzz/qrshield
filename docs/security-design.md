@@ -24,7 +24,7 @@ The server fetches attacker-chosen URLs, which is a textbook **Server-Side Reque
 
 ### What "public" means
 
-`isPublicAddress()` accepts only addresses whose `ipaddr.js` range is `unicast`. IPv4-mapped IPv6 (`::ffff:127.0.0.1`) is unwrapped first. Rejected ranges include private (10/8, 172.16/12, 192.168/16), loopback, link-local (incl. **169.254.169.254** cloud metadata), CGNAT 100.64/10 (incl. Alibaba metadata 100.100.100.200), multicast, broadcast, reserved, documentation/benchmarking, IPv6 unique-local (incl. AWS `fd00:ec2::254`), link-local, **6to4 (2002::/16), Teredo and NAT64 (64:ff9b::/96)** (which can embed private IPv4), and unspecified. All of these are unit-tested.
+`isPublicAddress()` accepts only addresses whose `ipaddr.js` range is `unicast`. IPv4-mapped IPv6 (`::ffff:127.0.0.1`) is unwrapped first, and well-known NAT64 addresses (`64:ff9b::/96`, returned by DNS64 on IPv6-only networks) are judged by their embedded IPv4. Rejected ranges include private (10/8, 172.16/12, 192.168/16), loopback, link-local (incl. **169.254.169.254** cloud metadata), CGNAT 100.64/10 (incl. Alibaba metadata 100.100.100.200), multicast, broadcast, reserved, documentation/benchmarking, IPv6 unique-local (incl. AWS `fd00:ec2::254`), link-local, **6to4 (2002::/16), Teredo and local-use NAT64 (64:ff9b:1::/48)** (which can embed private IPv4), and unspecified. All of these are unit-tested.
 
 ### Proof by test
 

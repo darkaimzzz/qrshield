@@ -33,14 +33,21 @@ describe("isPublicAddress", () => {
     "::ffff:10.0.0.1",
     "2002:7f00:1::",
     "64:ff9b::7f00:1",
+    "64:ff9b::a9fe:a9fe",
+    "64:ff9b::a00:1",
+    "64:ff9b:1::808:808",
     "192.0.2.1",
     "not-an-ip",
   ])("blocks %s", (ip) => expect(isPublicAddress(ip)).toBe(false))
 
-  it.each(["8.8.8.8", "1.1.1.1", "93.184.215.14", "2606:4700:4700::1111", "::ffff:8.8.8.8"])(
-    "allows %s",
-    (ip) => expect(isPublicAddress(ip)).toBe(true),
-  )
+  it.each([
+    "8.8.8.8",
+    "1.1.1.1",
+    "93.184.215.14",
+    "2606:4700:4700::1111",
+    "::ffff:8.8.8.8",
+    "64:ff9b::808:808", // DNS64/NAT64 answer for public 8.8.8.8
+  ])("allows %s", (ip) => expect(isPublicAddress(ip)).toBe(true))
 })
 
 function lookupWith(answers: LookupAddress[] | Error) {

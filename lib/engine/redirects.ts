@@ -28,16 +28,28 @@ const USER_AGENT = "QRShield-LinkInspector/1.0 (+redirect check; page content is
 
 export class BlockedDestinationError extends Error {}
 
+/** RFC 6052 well-known NAT64 prefix 64:ff9b::/96 (first 12 bytes). */
+const NAT64_WKP = [0x00, 0x64, 0xff, 0x9b, 0, 0, 0, 0, 0, 0, 0, 0]
+
 /** True only for globally routable unicast addresses (ipaddr.js "unicast" range). */
 export function isPublicAddress(ip: string): boolean {
   if (!ipaddr.isValid(ip)) return false
   let addr = ipaddr.parse(ip)
-  if (addr.kind() === "ipv6" && (addr as ipaddr.IPv6).isIPv4MappedAddress()) {
-    addr = (addr as ipaddr.IPv6).toIPv4Address()
+  if (addr.kind() === "ipv6") {
+    const v6 = addr as ipaddr.IPv6
+    const bytes = v6.toByteArray()
+    if (v6.isIPv4MappedAddress()) {
+      addr = v6.toIPv4Address()
+    } else if (NAT64_WKP.every((b, i) => bytes[i] === b)) {
+      // DNS64 networks (IPv6-only hosts, common on mobile carriers) answer with 64:ff9b::/96
+      // addresses; the NAT64 gateway forwards to the embedded IPv4, so judge that address.
+      addr = ipaddr.fromByteArray(bytes.slice(12))
+    }
   }
   // Excludes private, loopback, link-local (incl. 169.254.169.254 metadata), CGNAT
   // (incl. 100.100.100.200), multicast, reserved, unique-local (incl. fd00:ec2::254),
-  // 6to4/Teredo/NAT64 (which can embed private IPv4), documentation and benchmarking ranges.
+  // 6to4/Teredo/local-use NAT64 (which can embed private IPv4), documentation and
+  // benchmarking ranges.
   return addr.range() === "unicast"
 }
 

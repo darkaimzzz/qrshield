@@ -29,7 +29,7 @@ Answers to the questions reviewers ask most, plus known limitations.
 7. **How do you stop DNS rebinding?** Validation happens _inside_ the DNS lookup that Node uses to open the socket, so there is no second resolution to race. A test simulates a resolver that turns private on the second call.
 8. **Doesn't pinning break HTTPS certificate checks?** No. Only the address lookup is customized; the TLS servername stays the hostname, so certificates are verified normally.
 9. **What about `http://2130706433/` or `0x7f.1`?** The WHATWG parser normalizes them to `127.0.0.1` first, and the IP-literal check then rejects them (tested).
-10. **What about IPv6 tricks like `::ffff:127.0.0.1`, 6to4 or NAT64?** IPv4-mapped addresses are unwrapped. 6to4, Teredo and NAT64 ranges are not "unicast" in ipaddr.js, so they are blocked (tested).
+10. **What about IPv6 tricks like `::ffff:127.0.0.1`, 6to4 or NAT64?** IPv4-mapped addresses are unwrapped. Well-known NAT64 addresses (`64:ff9b::/96`, used by DNS64 on IPv6-only networks) are judged by the IPv4 they embed, so `64:ff9b::a9fe:a9fe` (metadata) is blocked while NAT64 answers for public sites work. 6to4, Teredo and local-use NAT64 ranges are not "unicast" in ipaddr.js, so they are blocked (tested).
 11. **Could a redirect send the server to the cloud metadata service?** No. The Location is re-validated as a new URL; 169.254.169.254 is link-local and blocked (tested).
 12. **Why not just use `fetch` with `redirect: "follow"`?** The brief forbids it: automatic following would connect to intermediate hops without per-hop validation.
 13. **How are large or slow responses handled?** 16 KB header cap, bodies destroyed unread, 3 s/5 s/12 s timeouts, and at most two requests per hop.
